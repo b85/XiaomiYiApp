@@ -8,11 +8,11 @@ using XiaomiYiApp.Model.Enums;
 
 namespace XiaomiYiApp.Converters
 {
-    class OnOffToBooleanConverter : IValueConverter
+    public class OnOffToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (targetType != typeof(bool))
+            if (targetType != typeof(bool) &&  Nullable.GetUnderlyingType (targetType) !=  typeof(bool))
                 throw new InvalidOperationException("The target must be a boolean");
 
             return (value != null && String.Equals(value.ToString(), ConfigurationParameterBooleanValue.ON, StringComparison.CurrentCultureIgnoreCase));

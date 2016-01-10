@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XiaomiYiApp.Model.Entities;
+using XiaomiYiApp.Model.Events;
 using XiaomiYiApp.Model.Messages;
 
 namespace XiaomiYiApp.Servicies.Interfaces
@@ -11,6 +12,8 @@ namespace XiaomiYiApp.Servicies.Interfaces
     public interface ICameraConnectionService
     {
         Boolean IsConnected { get; }
+
+        event EventHandler<UnhandledMessageEventArgs> UnhandledMessageReceived;
 
         OperationResult ConnenctData();
 

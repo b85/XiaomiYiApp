@@ -18,73 +18,96 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
-    prism:ViewModelLocator.AutoWireViewModel="True">
+    prism:ViewModelLocator.AutoWireViewModel="True" Loaded="PhoneApplicationPage_Loaded">
     <phone:PhoneApplicationPage.Resources>
         <converters:InverseBooleanConverter x:Name="inverseBooleanConverter"/>
         <converters:OnOffToBooleanConverter x:Name="onOffToBooleanConverter"/>
         
         <DataTemplate x:Name="MultiValueItemTemplate">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" >
-                <TextBlock Text="{Binding Name}" Margin="0,0,5,0"/>
-                <toolkit:ListPicker ItemsSource="{Binding SourceDetail.AvailableValues}" SelectedItem="{Binding CurrentValue, Mode=TwoWay}" 
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch"  >
+                <TextBlock Text="{Binding SourceDetail.Name}" Margin="0,0,5,0"/>
+                <toolkit:ListPicker Grid.Row="1" ItemsSource="{Binding SourceDetail.AvailableValues}" SelectedItem="{Binding CurrentValue, Mode=TwoWay}" 
                                     SelectionMode="Single" HorizontalAlignment="Stretch"  />
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Name="BooleanValueItemTemplate" >
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <!--<TextBlock Text="{Binding Name}" Margin="0,0,5,0"/>-->
-                <toolkit:ToggleSwitch Grid.Column="1" Header="{Binding Name}"  
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch"  >
+                <TextBlock Text="{Binding SourceDetail.Name}" Margin="0,0,5,0"/>
+                <toolkit:ToggleSwitch
                               IsChecked="{Binding CurrentValue, Mode=TwoWay, Converter={StaticResource onOffToBooleanConverter}}" >
                     
                 </toolkit:ToggleSwitch>
-            </Grid>
+            </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Name="StringValueItemTemplate">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" >
-                <TextBlock Text="{Binding Name}" Margin="0,0,5,0"/>
-                <TextBox Text="{Binding CurrentValue, Mode=TwoWay}"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch"  >
+                <TextBlock Text="{Binding SourceDetail.Name}" Margin="0,0,5,0"/>
+                <TextBox Text="{Binding CurrentValue, Mode=TwoWay}" IsReadOnly="{Binding SourceDetail.IsReadOnly}"/>
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Name="DateTimeValueItemTemplate">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" >
-                <TextBlock Text="{Binding Name}" Margin="0,0,5,0"/>
+                <TextBlock Text="{Binding SourceDetail.Name}" Margin="0,0,5,0"/>
                 <TextBox Text="{Binding CurrentValue, Mode=OneWay}" IsReadOnly="True"/>
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Name="ConfigParameterItemTemplate">
-            <selectors:ConfigParameterTemplateSelector IsEnabled="{Binding SourceDetail.IsReadOnly, Converter={StaticResource inverseBooleanConverter} }"  
+        <DataTemplate x:Name="ConfigParameterItemTemplate" >
+            <Grid>
+            <selectors:ConfigParameterTemplateSelector Content="{Binding}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                                       IsEnabled="{Binding SourceDetail.IsReadOnly, Converter={StaticResource inverseBooleanConverter} }"  
                                                        MultiValueItemTemplate="{StaticResource MultiValueItemTemplate}" 
                                                        BooleanValueItemTemplate="{StaticResource BooleanValueItemTemplate}"
                                                        StringValueItemTemplate="{StaticResource StringValueItemTemplate}"
                                                        DatetimeValueItemTemplate="{StaticResource DateTimeValueItemTemplate}"/>
+            </Grid>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
+
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="True"
+                                   />
+    </shell:SystemTray.ProgressIndicator>
     
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
-        <phone:Pivot Title="Configuration">
+        <phone:Pivot Title="Configuration" >
             <phone:PivotItem Header="Video">
                 <Grid>
-                    <ListBox ItemTemplate="{StaticResource ConfigParameterItemTemplate}" ItemsSource="{Binding VideoParameters}"/>
+                    <ListBox ItemsSource="{Binding VideoParameters}"
+                             ItemTemplate="{StaticResource ConfigParameterItemTemplate}"  >
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
                 </Grid>
             </phone:PivotItem>
             <phone:PivotItem Header="Photo">
                 <Grid>
-                    <ListBox ItemTemplate="{StaticResource ConfigParameterItemTemplate}" ItemsSource="{Binding PhotoParameters}"/>
+                    <ListBox ItemTemplate="{StaticResource ConfigParameterItemTemplate}" ItemsSource="{Binding PhotoParameters}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
                 </Grid>
             </phone:PivotItem>
             <phone:PivotItem Header="System">
                 <Grid>
-                    <ListBox ItemTemplate="{StaticResource ConfigParameterItemTemplate}" ItemsSource="{Binding SystemParameters}"/>
+                    <ListBox ItemTemplate="{StaticResource ConfigParameterItemTemplate}" ItemsSource="{Binding SystemParameters}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

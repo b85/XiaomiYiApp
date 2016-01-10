@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,9 @@ namespace XiaomiYiApp.ViewModels
 
         public List<ConfigurationParameterViewModel> Parameters { get; private set; }
 
-        public List<ConfigurationParameterViewModel> VideoParameters { get; private set; }
-        public List<ConfigurationParameterViewModel> PhotoParameters { get; private set; }
-        public List<ConfigurationParameterViewModel> SystemParameters { get; private set; }
+        public ObservableCollection<ConfigurationParameterViewModel> VideoParameters { get; private set; }
+        public ObservableCollection<ConfigurationParameterViewModel> PhotoParameters { get; private set; }
+        public ObservableCollection<ConfigurationParameterViewModel> SystemParameters { get; private set; }
 
         public ConfigurationViewModel(INavigationService navigationService, ICameraConfigurationRepository cameraConfigurationRepository, IMsgBoxService msgBoxService)
         {
@@ -29,17 +30,22 @@ namespace XiaomiYiApp.ViewModels
             _msgBoxService = msgBoxService;
             _cameraConfigurationRepository = cameraConfigurationRepository;
             Parameters = new List<ConfigurationParameterViewModel>();
-            VideoParameters = new List<ConfigurationParameterViewModel>();
-            PhotoParameters = new List<ConfigurationParameterViewModel>();
-            SystemParameters = new List<ConfigurationParameterViewModel>();
+            VideoParameters = new ObservableCollection<ConfigurationParameterViewModel>();
+            PhotoParameters = new ObservableCollection<ConfigurationParameterViewModel>();
+            SystemParameters = new ObservableCollection<ConfigurationParameterViewModel>();
            // _configurationService = configurationService;
 
-            LoadDetailedConfigurationAsync();
+           //LoadDetailedConfigurationAsync();
             
         }
 
-        private async void LoadDetailedConfigurationAsync()
+        internal async Task LoadDetailedConfigurationAsync()
         {
+            if (Parameters.Count > 0)
+            {
+                return;
+            }
+
             var result = await _cameraConfigurationRepository.GetDetailedConfigurationAsync();
             if(result.Success)
             {
@@ -70,6 +76,9 @@ namespace XiaomiYiApp.ViewModels
                         }
                     }
                 }
+                //OnPropertyChanged("VideoParameters");
+                //OnPropertyChanged("PhotoParameters");
+                //OnPropertyChanged("SystemParameters");
             }
             else
             {

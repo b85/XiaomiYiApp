@@ -15,10 +15,27 @@ namespace XiaomiYiApp.Views
     {
         public ConfigurationView()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
 
+        private  void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            //object o = this.DataContext;
 
+            //await ((XiaomiYiApp.ViewModels.ConfigurationViewModel)this.DataContext).LoadDetailedConfigurationAsync();
+
+            //List<String> ls = new List<string>(new String[]{ "", "aa", "bb"});
+
+            //object l = lbVideo.ItemsSource = ((XiaomiYiApp.ViewModels.ConfigurationViewModel)this.DataContext).VideoParameters;
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            SystemTray.ProgressIndicator.IsVisible = true;
+            await((XiaomiYiApp.ViewModels.ConfigurationViewModel)this.DataContext).LoadDetailedConfigurationAsync();
+            SystemTray.ProgressIndicator.IsVisible = false;
+            base.OnNavigatedTo(e);
+        }
        
     }
 }

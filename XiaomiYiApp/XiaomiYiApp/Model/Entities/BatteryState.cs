@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using XiaomiYiApp.Model.Enums;
 
-namespace XiaomiYiApp.Model.Events
+namespace XiaomiYiApp.Model.Entities
 {
-    class BatteryChangedEventArgs : EventArgs
+    public class BatteryState
     {
         public int BatteryLevel { get; set; }
         public BatteryStatus BatteryStatus { get; set; }

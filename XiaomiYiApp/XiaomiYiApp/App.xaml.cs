@@ -14,12 +14,15 @@ using XiaomiYiApp.Servicies.Interfaces;
 using XiaomiYiApp.Servicies;
 using XiaomiYiApp.Repositories.Interfaces;
 using XiaomiYiApp.Repositories;
+using Microsoft.Practices.Prism.PubSubEvents;
 
 namespace XiaomiYiApp
 {
     public partial class App : Application
     {
         private readonly IUnityContainer _container = new UnityContainer();
+
+        private EventAggregator _eventAggregator;
 
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
@@ -132,17 +135,23 @@ namespace XiaomiYiApp
             // Handle reset requests for clearing the backstack
             RootFrame.Navigated += CheckForResetNavigation;
 
-           
+            _eventAggregator = new EventAggregator();
+
             //unity
+            _container.RegisterInstance<IEventAggregator>( _eventAggregator, new ContainerControlledLifetimeManager());
             _container.RegisterType<INavigationService, XiaomiYiApp.Servicies.NavigationService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IMsgBoxService, MsgBoxService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ICameraConnectionService, CameraConnectionService>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<ICameraNotificationService, CameraNotificationService>(new ContainerControlledLifetimeManager());
+           // _container.RegisterType<ICameraNotificationService, CameraNotificationService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ICameraConfigurationService, CameraConfigurationService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ICameraConfigurationRepository, CameraConfigurationRepository>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ConnectViewModel>();
             _container.RegisterType<MainViewModel>();
             _container.RegisterType<ConfigurationViewModel>();
+
+            //registro istanza perchè per ora non è richiamato da nessuna entità
+            _container.RegisterInstance<ICameraNotificationService>(new CameraNotificationService( _container.Resolve<ICameraConnectionService>(), _eventAggregator));
+            
             //_container.RegisterInstance<ISessionStateService>(SessionStateService);
 
             // Set a factory for the ViewModelLocator to use the container to construct view models so their 

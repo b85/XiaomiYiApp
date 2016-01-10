@@ -8,7 +8,7 @@ using XiaomiYiApp.ViewModels;
 
 namespace XiaomiYiApp.Selectors
 {
-    class ConfigParameterTemplateSelector : TemplateSelector
+    public class ConfigParameterTemplateSelector : TemplateSelector
     {
         public DataTemplate MultiValueItemTemplate { set; get; }
 
