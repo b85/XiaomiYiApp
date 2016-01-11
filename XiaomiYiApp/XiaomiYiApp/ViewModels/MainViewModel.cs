@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.PubSubEvents;
+using PrismClone.StoreApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,15 @@ using XiaomiYiApp.Servicies.Interfaces;
 
 namespace XiaomiYiApp.ViewModels
 {
-    class MainViewModel : BindableBase
+    class MainViewModel : BindableBase , INavigationAware
     {
       
         private  IEventAggregator _eventAggregator;
         private INavigationService _navigationService;
 
         private DelegateCommand _configurationCommand;
+
+        public BatteryViewModel BatteryViewModel { get; private set; }
 
         public ICommand ConfigurationCommand
         {
@@ -38,15 +41,16 @@ namespace XiaomiYiApp.ViewModels
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
+            BatteryViewModel = new ViewModels.BatteryViewModel(eventAggregator);
 
-            _eventAggregator.GetEvent<BatteryStateChangedEvent>().Subscribe(UpdateBattery);
+            //_eventAggregator.GetEvent<BatteryStateChangedEvent>().Subscribe(UpdateBattery);
         }
 
 
-        private void UpdateBattery(BatteryState state)
-        {
-            //TODO
-        }
+        //private void UpdateBattery(BatteryState state)
+        //{
+        //    //TODO
+        //}
 
         private void ConfigurationCommandExecute()
         { 
@@ -58,6 +62,16 @@ namespace XiaomiYiApp.ViewModels
         {
             //TODO
             return true;
+        }
+
+        public void OnNavigatedTo(object navigationParameter, System.Windows.Navigation.NavigationMode navigationMode, Dictionary<string, object> viewModelState)
+        {
+            // throw new NotImplementedException();
+        }
+
+        public void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
+        {
+            //throw new NotImplementedException();
         }
     }
 }

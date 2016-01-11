@@ -15,6 +15,8 @@ using XiaomiYiApp.Servicies;
 using XiaomiYiApp.Repositories.Interfaces;
 using XiaomiYiApp.Repositories;
 using Microsoft.Practices.Prism.PubSubEvents;
+using PrismClone.StoreApp.Interfaces;
+using PrismClone.StoreApp;
 
 namespace XiaomiYiApp
 {
@@ -23,6 +25,8 @@ namespace XiaomiYiApp
         private readonly IUnityContainer _container = new UnityContainer();
 
         private EventAggregator _eventAggregator;
+
+        private INavigationService _navigationService;
 
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
@@ -73,6 +77,49 @@ namespace XiaomiYiApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            _eventAggregator = new EventAggregator();
+            _navigationService = new FrameNavigationService(RootFrame, (viewModelType) =>
+            {
+                if (!viewModelType.Name.EndsWith("model", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    throw new Exception("ViewModel type name must end with Model");
+                }
+                return String.Format(@"/Views/{0}.xaml", viewModelType.Name.Remove(viewModelType.Name.Length - 5));
+            });
+
+            //unity
+            _container.RegisterInstance<IEventAggregator>(_eventAggregator, new ContainerControlledLifetimeManager());
+            _container.RegisterInstance<INavigationService>(_navigationService, new ContainerControlledLifetimeManager());
+            //_container.RegisterType<INavigationService, XiaomiYiApp.Servicies.NavigationService>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<IMsgBoxService, MsgBoxService>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<ICameraConnectionService, CameraConnectionService>(new ContainerControlledLifetimeManager());
+            // _container.RegisterType<ICameraNotificationService, CameraNotificationService>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<ICameraConfigurationService, CameraConfigurationService>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<ICameraConfigurationRepository, CameraConfigurationRepository>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<ConnectViewModel>();
+            _container.RegisterType<MainViewModel>();
+            _container.RegisterType<ConfigurationViewModel>();
+
+            //registro istanza perchè per ora non è richiamato da nessuna entità
+            _container.RegisterInstance<ICameraNotificationService>(new CameraNotificationService(_container.Resolve<ICameraConnectionService>(), _eventAggregator));
+
+            //_container.RegisterInstance<ISessionStateService>(SessionStateService);
+
+            // Set a factory for the ViewModelLocator to use the container to construct view models so their 
+            // dependencies get injected by the container
+            //  ViewModelLocator.SetDefaultViewModelFactory((viewModelType) => _container.Resolve(viewModelType));
+
+            // prism
+            ViewModelLocationProvider.SetDefaultViewModelFactory((viewModelType) =>
+                _container.Resolve(viewModelType));
+
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
+            {
+                var viewModelTypeName = String.Format("XiaomiYiApp.ViewModels.{0}Model", viewType.Name);
+                //string.Format(CultureInfo.InvariantCulture, "AdventureWorks.UILogic.ViewModels.{0}ViewModel, AdventureWorks.UILogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=634ac3171ee5190a", viewType.Name);
+                var viewModelType = Type.GetType(viewModelTypeName);
+                return viewModelType;
+            });
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -135,40 +182,6 @@ namespace XiaomiYiApp
             // Handle reset requests for clearing the backstack
             RootFrame.Navigated += CheckForResetNavigation;
 
-            _eventAggregator = new EventAggregator();
-
-            //unity
-            _container.RegisterInstance<IEventAggregator>( _eventAggregator, new ContainerControlledLifetimeManager());
-            _container.RegisterType<INavigationService, XiaomiYiApp.Servicies.NavigationService>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<IMsgBoxService, MsgBoxService>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<ICameraConnectionService, CameraConnectionService>(new ContainerControlledLifetimeManager());
-           // _container.RegisterType<ICameraNotificationService, CameraNotificationService>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<ICameraConfigurationService, CameraConfigurationService>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<ICameraConfigurationRepository, CameraConfigurationRepository>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<ConnectViewModel>();
-            _container.RegisterType<MainViewModel>();
-            _container.RegisterType<ConfigurationViewModel>();
-
-            //registro istanza perchè per ora non è richiamato da nessuna entità
-            _container.RegisterInstance<ICameraNotificationService>(new CameraNotificationService( _container.Resolve<ICameraConnectionService>(), _eventAggregator));
-            
-            //_container.RegisterInstance<ISessionStateService>(SessionStateService);
-
-            // Set a factory for the ViewModelLocator to use the container to construct view models so their 
-            // dependencies get injected by the container
-            //  ViewModelLocator.SetDefaultViewModelFactory((viewModelType) => _container.Resolve(viewModelType));
-
-            // prism
-            ViewModelLocationProvider.SetDefaultViewModelFactory((viewModelType) => 
-                _container.Resolve(viewModelType));
-
-            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
-            {
-                var viewModelTypeName = String.Format( "XiaomiYiApp.ViewModels.{0}Model", viewType.Name);
-                //string.Format(CultureInfo.InvariantCulture, "AdventureWorks.UILogic.ViewModels.{0}ViewModel, AdventureWorks.UILogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=634ac3171ee5190a", viewType.Name);
-                var viewModelType = Type.GetType(viewModelTypeName);
-                return viewModelType;
-            });
             // Ensure we don't initialize again
             phoneApplicationInitialized = true;
         }

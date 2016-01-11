@@ -1,10 +1,13 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Mvvm;
+using PrismClone.StoreApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using XiaomiYiApp.Infrastrutture;
 using XiaomiYiApp.Repositories.Interfaces;
 using XiaomiYiApp.Servicies.Interfaces;
@@ -18,18 +21,31 @@ namespace XiaomiYiApp.ViewModels
         //private ICameraConfigurationService _configurationService;
         private ICameraConfigurationRepository _cameraConfigurationRepository;
 
-        public List<ConfigurationParameterViewModel> Parameters { get; private set; }
+        private List<ConfigurationParameterViewModel> _parameters;    
+        private DelegateCommand _saveCommand;
 
         public ObservableCollection<ConfigurationParameterViewModel> VideoParameters { get; private set; }
         public ObservableCollection<ConfigurationParameterViewModel> PhotoParameters { get; private set; }
         public ObservableCollection<ConfigurationParameterViewModel> SystemParameters { get; private set; }
+
+        public DelegateCommand SaveCommand
+        {
+            get
+            {
+                if (_saveCommand == null)
+                {
+                    _saveCommand = new DelegateCommand(SaveCommandExecute, SaveCommandCanExecute);
+                }
+                return _saveCommand;
+            }
+        }
 
         public ConfigurationViewModel(INavigationService navigationService, ICameraConfigurationRepository cameraConfigurationRepository, IMsgBoxService msgBoxService)
         {
             _navigationService = navigationService;
             _msgBoxService = msgBoxService;
             _cameraConfigurationRepository = cameraConfigurationRepository;
-            Parameters = new List<ConfigurationParameterViewModel>();
+            _parameters = new List<ConfigurationParameterViewModel>();
             VideoParameters = new ObservableCollection<ConfigurationParameterViewModel>();
             PhotoParameters = new ObservableCollection<ConfigurationParameterViewModel>();
             SystemParameters = new ObservableCollection<ConfigurationParameterViewModel>();
@@ -41,7 +57,7 @@ namespace XiaomiYiApp.ViewModels
 
         internal async Task LoadDetailedConfigurationAsync()
         {
-            if (Parameters.Count > 0)
+            if (_parameters.Count > 0)
             {
                 return;
             }
@@ -52,7 +68,7 @@ namespace XiaomiYiApp.ViewModels
                 ConfigurationParameterViewModel paramVm;
                 foreach (var paramDetail in result.Result.Parameters)
                 {
-                    paramVm = Parameters.FirstOrDefault(x => x.SourceDetail.Name == paramDetail.Name);
+                    paramVm = _parameters.FirstOrDefault(x => x.SourceDetail.Name == paramDetail.Name);
                     if (paramVm != null)
                     {
                         paramVm.CurrentValue = paramDetail.Value;
@@ -60,7 +76,7 @@ namespace XiaomiYiApp.ViewModels
                     else
                     {
                         paramVm = new ConfigurationParameterViewModel(paramDetail);
-                        Parameters.Add(paramVm);
+                        _parameters.Add(paramVm);
 
                         if (Helpers.IsVideoConfigurationParameter(paramDetail.Name))
                         {
@@ -82,8 +98,26 @@ namespace XiaomiYiApp.ViewModels
             }
             else
             {
-                _msgBoxService.ShowNotification("Configuration readind failed." , "Error");
+                _msgBoxService.ShowNotification("Unable to read camera configuration.", "Error");
             }
+        }
+
+        private async void SaveCommandExecute()
+        {
+            foreach (var configParam in _parameters.Where(x=>x.IsModified))
+            {
+                var opResult = await _cameraConfigurationRepository.UpdateConfigurationParameterAsync(configParam.Name, configParam.CurrentValue);
+                if (!opResult.Success)
+                {
+                    _msgBoxService.ShowNotification(String.Format("Unable to update the parameter {0}.", configParam.Name), "Error");
+                    break;
+                }
+            }
+        }
+
+        private Boolean SaveCommandCanExecute()
+        {
+            return true;
         }
     }
 }

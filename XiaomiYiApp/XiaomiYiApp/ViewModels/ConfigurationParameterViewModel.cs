@@ -30,6 +30,22 @@ namespace XiaomiYiApp.ViewModels
             }
         }
 
+        public String Name
+        {
+            get
+            {
+                return SourceDetail.Name;
+            }
+        }
+
+        public Boolean IsModified
+        {
+            get
+            {
+                return String.Equals(_currentValue, SourceDetail.Value, StringComparison.CurrentCultureIgnoreCase);
+            }
+        }
+
         public ConfigurationParameterViewModel(ConfigurationParameterDetail sourceDetail)
         {
             SourceDetail = sourceDetail;

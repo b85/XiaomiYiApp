@@ -1,6 +1,7 @@
 ﻿using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
+using PrismClone.StoreApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +75,10 @@ namespace XiaomiYiApp.ViewModels
 
         private async void ConnectCommandExecute()
         {
+            //TEST
+            _navigationService.Navigate(typeof(MainViewModel), 12);
+            return;
+
             if (IsWifiConnected())
             {
                 VisualState = VisualStates.Connecting.ToString();
