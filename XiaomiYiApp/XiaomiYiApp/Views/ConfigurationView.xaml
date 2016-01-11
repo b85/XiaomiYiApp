@@ -26,8 +26,9 @@
         <DataTemplate x:Name="MultiValueItemTemplate">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch"  >
                 <TextBlock Text="{Binding SourceDetail.Name}" Margin="0,0,5,0"/>
-                <toolkit:ListPicker Grid.Row="1" ItemsSource="{Binding SourceDetail.AvailableValues}" SelectedItem="{Binding CurrentValue, Mode=TwoWay}" 
-                                    SelectionMode="Single" HorizontalAlignment="Stretch"  />
+                <toolkit:ListPicker Grid.Row="1" ItemsSource="{Binding SourceDetail.AvailableValues}" 
+                                    SelectedItem="{Binding CurrentValue, Mode=TwoWay}" 
+                                    SelectionMode="Single" HorizontalAlignment="Stretch"   VirtualizingStackPanel.VirtualizationMode="Standard" />
             </StackPanel>
         </DataTemplate>
 
@@ -68,8 +69,7 @@
     </phone:PhoneApplicationPage.Resources>
 
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator IsIndeterminate="True"
-                                   />
+        <shell:ProgressIndicator IsIndeterminate="True" IsVisible="{Binding IsWaiting}"/>
     </shell:SystemTray.ProgressIndicator>
     
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -107,6 +107,11 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             </Style>
                         </ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel ></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
                     </ListBox>
                 </Grid>
             </phone:PivotItem>

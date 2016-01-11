@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\OnOffToBooleanConverter.cs" />
+    <Compile Include="CustomControls\CustomListPicker.cs" />
     <Compile Include="Infrastrutture\Helpers.cs" />
     <Compile Include="Infrastrutture\RequestStateObject.cs" />
     <Compile Include="LocalizedStrings.cs" />

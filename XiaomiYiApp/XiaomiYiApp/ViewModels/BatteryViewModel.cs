@@ -30,7 +30,7 @@ namespace XiaomiYiApp.ViewModels
         public BatteryViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<BatteryStateChangedEvent>().Subscribe((e) => { BatteryLevel = e.BatteryLevel; });
+            _eventAggregator.GetEvent<BatteryStateChangedEvent>().Subscribe((e) => { BatteryLevel = e.BatteryLevel; }, ThreadOption.UIThread);
         }
     }
 }

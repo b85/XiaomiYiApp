@@ -75,9 +75,6 @@ namespace XiaomiYiApp.ViewModels
 
         private async void ConnectCommandExecute()
         {
-            //TEST
-            _navigationService.Navigate(typeof(MainViewModel), 12);
-            return;
 
             if (IsWifiConnected())
             {
@@ -90,8 +87,9 @@ namespace XiaomiYiApp.ViewModels
                     result = await _configurationRepository.LoadDetailedConfigurationAsync();
                     if (result.Success)
                     {
-                        VisualState = VisualStates.Connected.ToString();
+                        //VisualState = VisualStates.Connected.ToString();
                         _navigationService.Navigate(typeof(MainViewModel));
+                        VisualState = VisualStates.Connected.ToString();
                         return;
                     }
                 }

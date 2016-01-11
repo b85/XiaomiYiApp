@@ -20,6 +20,7 @@ namespace XiaomiYiApp.Views
 
         private  void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+           // object o = picker.se;
             //object o = this.DataContext;
 
             //await ((XiaomiYiApp.ViewModels.ConfigurationViewModel)this.DataContext).LoadDetailedConfigurationAsync();
@@ -29,13 +30,13 @@ namespace XiaomiYiApp.Views
             //object l = lbVideo.ItemsSource = ((XiaomiYiApp.ViewModels.ConfigurationViewModel)this.DataContext).VideoParameters;
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            SystemTray.ProgressIndicator.IsVisible = true;
-            await((XiaomiYiApp.ViewModels.ConfigurationViewModel)this.DataContext).LoadDetailedConfigurationAsync();
-            SystemTray.ProgressIndicator.IsVisible = false;
-            base.OnNavigatedTo(e);
-        }
+        //protected override async void OnNavigatedTo(NavigationEventArgs e)
+        //{
+        //    SystemTray.ProgressIndicator.IsVisible = true;
+        //    await((XiaomiYiApp.ViewModels.ConfigurationViewModel)this.DataContext).LoadDetailedConfigurationAsync();
+        //    SystemTray.ProgressIndicator.IsVisible = false;
+        //    base.OnNavigatedTo(e);
+        //}
        
     }
 }

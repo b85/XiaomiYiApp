@@ -14,19 +14,33 @@ using XiaomiYiApp.Servicies.Interfaces;
 
 namespace XiaomiYiApp.ViewModels
 {
-    public class ConfigurationViewModel : BindableBase
+    public class ConfigurationViewModel : BindableBase, INavigationAware
     {
         private INavigationService _navigationService;
         private IMsgBoxService _msgBoxService;
         //private ICameraConfigurationService _configurationService;
         private ICameraConfigurationRepository _cameraConfigurationRepository;
-
+        
         private List<ConfigurationParameterViewModel> _parameters;    
         private DelegateCommand _saveCommand;
+        private Boolean _isWaiting;
 
         public ObservableCollection<ConfigurationParameterViewModel> VideoParameters { get; private set; }
         public ObservableCollection<ConfigurationParameterViewModel> PhotoParameters { get; private set; }
         public ObservableCollection<ConfigurationParameterViewModel> SystemParameters { get; private set; }
+
+        public Boolean IsWaiting 
+        {
+            get { return _isWaiting; }
+            set
+            {
+                if((_isWaiting != value))
+                {
+                    _isWaiting = value;
+                    OnPropertyChanged("IsWaiting");
+                }
+            }
+        }
 
         public DelegateCommand SaveCommand
         {
@@ -57,11 +71,12 @@ namespace XiaomiYiApp.ViewModels
 
         internal async Task LoadDetailedConfigurationAsync()
         {
-            if (_parameters.Count > 0)
-            {
-                return;
-            }
+            //if (_parameters.Count > 0)
+            //{
+            //    return;
+            //}
 
+            IsWaiting = true;
             var result = await _cameraConfigurationRepository.GetDetailedConfigurationAsync();
             if(result.Success)
             {
@@ -95,29 +110,48 @@ namespace XiaomiYiApp.ViewModels
                 //OnPropertyChanged("VideoParameters");
                 //OnPropertyChanged("PhotoParameters");
                 //OnPropertyChanged("SystemParameters");
+                IsWaiting = false;
             }
             else
             {
+                IsWaiting = false;
                 _msgBoxService.ShowNotification("Unable to read camera configuration.", "Error");
             }
         }
 
         private async void SaveCommandExecute()
         {
+            IsWaiting = true;
             foreach (var configParam in _parameters.Where(x=>x.IsModified))
             {
                 var opResult = await _cameraConfigurationRepository.UpdateConfigurationParameterAsync(configParam.Name, configParam.CurrentValue);
                 if (!opResult.Success)
                 {
+                    IsWaiting = false;
                     _msgBoxService.ShowNotification(String.Format("Unable to update the parameter {0}.", configParam.Name), "Error");
                     break;
                 }
             }
+            IsWaiting = false;
         }
 
         private Boolean SaveCommandCanExecute()
         {
-            return true;
+            return !IsWaiting;
+        }
+
+        public async void OnNavigatedTo(object navigationParameter, System.Windows.Navigation.NavigationMode navigationMode, Dictionary<string, object> viewModelState)
+        {
+           // throw new NotImplementedException();
+            if (navigationMode == System.Windows.Navigation.NavigationMode.New)
+            {
+                await LoadDetailedConfigurationAsync();
+            }
+        }
+
+        public void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
+        {
+            //throw new NotImplementedException();
         }
     }
 }
