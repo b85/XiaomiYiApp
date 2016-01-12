@@ -7,7 +7,7 @@ using XiaomiYiApp.Model.Entities;
 
 namespace XiaomiYiApp.Model.Events
 {
-    class BatteryStateChangedEvent : PubSubEvent<BatteryState>
+    class BatteryStateChangedEvent : PubSubEvent<BatteryInfo>
     {
     }
 }

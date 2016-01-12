@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace XiaomiYiApp.Model.Messages
 {
-    public class BaseResponsMessage : Message
+    public class BaseResponseMessage : Message
     {
         [JsonProperty("rval")]
         public int Result { get; set; }

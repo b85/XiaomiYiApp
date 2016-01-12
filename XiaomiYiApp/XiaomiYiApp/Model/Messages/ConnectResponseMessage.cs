@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace XiaomiYiApp.Model.Messages
 {
-    public class ConnectResponseMessage : BaseResponsMessage
+    public class ConnectResponseMessage : BaseResponseMessage
     {
         [JsonProperty("param")]
         public int Param { set; get; }

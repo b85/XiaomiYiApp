@@ -58,7 +58,7 @@ namespace XiaomiYiApp.Servicies
             return result;
         }
 
-        public OperationResult<T> SendMessage<T>(RequestMessage message) where T : BaseResponsMessage
+        public OperationResult<T> SendMessage<T>(RequestMessage message) where T : BaseResponseMessage
         {
             OperationResult<RawResponseMessage> rawResponse = SendMessage(message);
             if (rawResponse.Success)
@@ -218,7 +218,7 @@ namespace XiaomiYiApp.Servicies
             return result;
         }
 
-        public async Task<OperationResult<T>> SendMessageAsync<T>(RequestMessage message) where T : BaseResponsMessage
+        public async Task<OperationResult<T>> SendMessageAsync<T>(RequestMessage message) where T : BaseResponseMessage
         {
              OperationResult<RawResponseMessage> rawResponse = await SendMessageAsync(message);
             if (rawResponse.Success)

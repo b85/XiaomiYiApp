@@ -64,5 +64,10 @@ namespace XiaomiYiApp.Model.Entities
                 Result = result,
             };
         }
+
+        public static new OperationResult<T> FromResult(OperationResult opResult)
+        {
+            return new OperationResult<T> { ResultMessage = opResult.ResultMessage, Success = opResult.Success };
+        }
     }
 }

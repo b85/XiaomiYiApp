@@ -18,6 +18,8 @@ namespace XiaomiYiApp.Model.Enums
         ConfigurationGet = 3,
         ConfigurationSet = 2,
         Notification = 7,
+        SdCardInfo = 5,
+        BatteryInfo = 13
     }
 
     public enum ConfigurationParameteDataType
@@ -26,5 +28,22 @@ namespace XiaomiYiApp.Model.Enums
         MultiValue,
         DateTime,
         Boolean
+    }
+
+    public enum CameraSystemMode
+    {
+        Capture,  //photo
+        Video
+    }
+
+    public enum CameraVideoMode
+    {
+        //TODO
+    }
+
+    public enum CameraCaptureMode
+    {
+        //TODO
+        //precise quality#precise quality cont.#burst quality#precise self quality
     }
 }

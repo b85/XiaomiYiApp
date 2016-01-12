@@ -47,11 +47,11 @@ namespace XiaomiYiApp.Servicies
             int level = 0;
             BatteryStatus status = int.TryParse(message.Value, out level) ?
                 BatteryStatus.InUse : BatteryStatus.Unknow;
-            RaiseBatteryStateChanged(new BatteryState { BatteryLevel = level, BatteryStatus = status }); 
+            RaiseBatteryStateChanged(new BatteryInfo { BatteryLevel = level, BatteryStatus = status }); 
             
         }
 
-        private void RaiseBatteryStateChanged(BatteryState state)
+        private void RaiseBatteryStateChanged(BatteryInfo state)
         {
             _eventAggregator.GetEvent<BatteryStateChangedEvent>().Publish(state);
         }

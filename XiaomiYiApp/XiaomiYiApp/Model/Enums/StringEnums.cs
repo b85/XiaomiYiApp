@@ -20,4 +20,10 @@ namespace XiaomiYiApp.Model.Enums
             public const String OFF = "off";
         }
 
+        static class SdCardInfoMessageType
+        {
+            public const String FREE_SPACE = "free";
+            public const String TOTAL_SPACE = "free";
+        }
+
 }

@@ -19,13 +19,13 @@ namespace XiaomiYiApp.Servicies.Interfaces
 
         void DisconnenctData();
 
-        OperationResult<T> SendMessage<T>(RequestMessage message) where T : BaseResponsMessage;
+        OperationResult<T> SendMessage<T>(RequestMessage message) where T : BaseResponseMessage;
 
         OperationResult<RawResponseMessage> SendMessage(RequestMessage message);
 
         Task<OperationResult> ConnenctDataAsync();
 
-        Task<OperationResult<T>> SendMessageAsync<T>(RequestMessage message) where T : BaseResponsMessage;
+        Task<OperationResult<T>> SendMessageAsync<T>(RequestMessage message) where T : BaseResponseMessage;
 
         Task<OperationResult<RawResponseMessage>> SendMessageAsync(RequestMessage message);
 
