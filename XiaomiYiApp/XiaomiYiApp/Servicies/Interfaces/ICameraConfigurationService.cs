@@ -20,5 +20,12 @@ namespace XiaomiYiApp.Servicies.Interfaces
          Task<OperationResult<DetailedConfiguration>> GetDetailedConfigurationAsync();
        
          Task<OperationResult> SetConfigurationParameterAsync(String name, String value);
+
+         Task<OperationResult<float>> GetSdCardFreeSpaceAsync();
+
+         Task<OperationResult<float>> GetSdCardSizeAsync();
+
+         Task<OperationResult<BatteryInfo>> GetBatteryInfoAsync();
+
     }
 }

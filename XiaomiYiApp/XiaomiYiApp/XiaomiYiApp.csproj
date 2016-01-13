@@ -98,6 +98,7 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\OnOffToBooleanConverter.cs" />
     <Compile Include="CustomControls\CustomListPicker.cs" />
+    <Compile Include="Infrastrutture\Extensions.cs" />
     <Compile Include="Infrastrutture\Helpers.cs" />
     <Compile Include="Infrastrutture\RequestStateObject.cs" />
     <Compile Include="LocalizedStrings.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Model\Messages\ResponseMessageWithParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CameraConfigurationRepository.cs" />
+    <Compile Include="Repositories\CaneraStateRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICameraConfigurationRepository.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -197,7 +197,7 @@ namespace XiaomiYiApp.Servicies
   */
         }
 
-        public async Task<OperationResult<BatteryInfo>> GetBatteryInfo()
+        public async Task<OperationResult<BatteryInfo>> GetBatteryInfoAsync()
         {
             RequestMessage requestMsg = new RequestMessage {  MessageId = (int)MessageType.BatteryInfo,};
 

@@ -14,6 +14,14 @@ namespace XiaomiYiApp.Model.Entities
         {
             return new OperationResult { ResultMessage = opResult.ResultMessage, Success = opResult.Success };
         }
+
+        //public static OperationResult GetSucces()
+        //{
+        //    return new OperationResult
+        //    {
+        //        Success = true,
+        //    };
+        //}
     }
 
     public class OperationResult<T> : OperationResult
