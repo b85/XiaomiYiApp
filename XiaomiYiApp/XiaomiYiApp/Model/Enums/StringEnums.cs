@@ -23,7 +23,7 @@ namespace XiaomiYiApp.Model.Enums
         static class SdCardInfoMessageType
         {
             public const String FREE_SPACE = "free";
-            public const String TOTAL_SPACE = "free";
+            public const String TOTAL_SPACE = "total";
         }
 
 }

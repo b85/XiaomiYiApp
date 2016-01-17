@@ -260,16 +260,16 @@ namespace XiaomiYiApp.Servicies
         private TaskCompletionSource<T> GetTaskCompletionSource<T>(int timeout = TIMEOUT_MILLISECONDS)
         {
             System.Threading.Tasks.TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
-           
             CancellationTokenSource cts = new CancellationTokenSource(timeout);
-            cts.Token.Register(() =>
+            cts.Token.Register((param) =>
                                     {
-                                        if (tcs.Task.Status != TaskStatus.RanToCompletion)
+                                        System.Threading.Tasks.TaskCompletionSource<T> tcsParam = (System.Threading.Tasks.TaskCompletionSource<T>)param;
+                                        if (tcsParam.Task.Status != TaskStatus.RanToCompletion)
                                         {
-                              
-                                                tcs.TrySetCanceled();
+
+                                            tcsParam.TrySetCanceled();
                                         }
-                                    });
+                                    }, tcs);
             tcs.Task.ContinueWith(t =>
                                     { cts.Dispose(); });
             return tcs;

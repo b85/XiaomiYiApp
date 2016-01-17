@@ -116,5 +116,10 @@ namespace XiaomiYiApp.Infrastrutture
         {
             return !IsPhotoConfigurationParameter(parameterName) && !IsVideoConfigurationParameter(parameterName);
         }
+
+        public static IEnumerable<T> EnumToList<T>() 
+        { 
+           return Enum.GetValues(typeof(T)).Cast<T>();
+        }
     }
 }

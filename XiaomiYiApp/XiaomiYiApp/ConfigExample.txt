@@ -1,0 +1,374 @@
+Name: camera_clock
+ReadOnly: False
+Values:
+2016-01-14 23:08:35
+
+Name: video_standard
+ReadOnly: False
+Values:
+NTSC
+PAL
+
+Name: app_status
+ReadOnly: True
+Values:
+idle
+vf
+record
+recording
+capture
+precise_cont_capturing
+burst_capturing
+precise_capturing
+operation_done
+
+Name: video_resolution
+ReadOnly: False
+Values:
+1920x1080 60P 16:9
+1920x1080 30P 16:9
+1920x1080 48P 16:9
+1920x1080 24P 16:9
+2304x1296 30P 16:9
+1280x960 60P 4:3
+1280x960 48P 4:3
+1280x720 60P 16:9
+1280x720 48P 16:9
+1280x720 120P 16:9
+848x480 240P 16:9
+
+Name: video_stamp
+ReadOnly: False
+Values:
+off
+date
+time
+date/time
+
+Name: video_quality
+ReadOnly: False
+Values:
+S.Fine
+Fine
+Normal
+
+Name: timelapse_video
+ReadOnly: False
+Values:
+off
+0.5
+1
+2
+5
+10
+30
+60
+
+Name: capture_mode
+ReadOnly: False
+Values:
+precise quality
+precise quality cont.
+burst quality
+precise self quality
+
+Name: photo_size
+ReadOnly: False
+Values:
+16M (4608x3456 4:3)
+13M (4128x3096 4:3)
+8M (3264x2448 4:3)
+5M (2560x1920 4:3)
+12M (4608x2592 16:9)
+
+Name: photo_stamp
+ReadOnly: False
+Values:
+off
+date
+time
+date/time
+
+Name: photo_quality
+ReadOnly: False
+Values:
+S.Fine
+Fine
+Normal
+
+Name: timelapse_photo
+ReadOnly: True
+Values:
+off
+2
+
+Name: preview_status
+ReadOnly: False
+Values:
+on
+off
+
+Name: buzzer_volume
+ReadOnly: False
+Values:
+high
+low
+mute
+
+Name: buzzer_ring
+ReadOnly: False
+Values:
+on
+off
+
+Name: capture_default_mode
+ReadOnly: False
+Values:
+precise quality
+precise quality cont.
+burst quality
+precise self quality
+
+Name: precise_cont_time
+ReadOnly: False
+Values:
+0.5 sec
+1.0 sec
+2.0 sec
+5.0 sec
+10.0 sec
+30.0 sec
+60.0 sec
+
+Name: burst_capture_number
+ReadOnly: False
+Values:
+3 p / s
+5 p / s
+7 p / s
+7 p / 2s
+
+Name: wifi_ssid
+ReadOnly: False
+Values:
+
+
+Name: wifi_password
+ReadOnly: False
+Values:
+
+
+Name: led_mode
+ReadOnly: False
+Values:
+all enable
+all disable
+status enable
+
+Name: meter_mode
+ReadOnly: False
+Values:
+center
+average
+spot
+
+Name: sd_card_status
+ReadOnly: True
+Values:
+
+
+Name: video_output_dev_type
+ReadOnly: False
+Values:
+hdmi
+tv
+off
+
+Name: sw_version
+ReadOnly: True
+Values:
+
+
+Name: hw_version
+ReadOnly: True
+Values:
+
+
+Name: dual_stream_status
+ReadOnly: True
+Values:
+
+
+Name: streaming_status
+ReadOnly: True
+Values:
+
+
+Name: precise_cont_capturing
+ReadOnly: True
+Values:
+
+
+Name: piv_enable
+ReadOnly: True
+Values:
+
+
+Name: auto_low_light
+ReadOnly: False
+Values:
+on
+off
+
+Name: loop_record
+ReadOnly: False
+Values:
+on
+off
+
+Name: warp_enable
+ReadOnly: False
+Values:
+on
+off
+
+Name: support_auto_low_light
+ReadOnly: True
+Values:
+
+
+Name: precise_selftime
+ReadOnly: False
+Values:
+3s
+5s
+10s
+15s
+
+Name: precise_self_running
+ReadOnly: False
+Values:
+on
+off
+
+Name: auto_power_off
+ReadOnly: False
+Values:
+off
+3 minutes
+5 minutes
+10 minutes
+
+Name: serial_number
+ReadOnly: True
+Values:
+
+
+Name: system_mode
+ReadOnly: False
+Values:
+capture
+record
+
+Name: system_default_mode
+ReadOnly: False
+Values:
+capture
+record
+
+Name: start_wifi_while_booted
+ReadOnly: False
+Values:
+on
+off
+
+Name: quick_record_time
+ReadOnly: True
+Values:
+
+
+Name: precise_self_remain_time
+ReadOnly: True
+Values:
+
+
+Name: sdcard_need_format
+ReadOnly: True
+Values:
+
+
+Name: video_rotate
+ReadOnly: False
+Values:
+off
+on
+
+Name: emergency_file_backup
+ReadOnly: False
+Values:
+on
+off
+
+Name: osd_enable
+ReadOnly: False
+Values:
+on
+off
+
+Name: rec_default_mode
+ReadOnly: False
+Values:
+record
+record_timelapse
+
+Name: rec_mode
+ReadOnly: False
+Values:
+record
+record_timelapse
+
+Name: record_photo_time
+ReadOnly: False
+Values:
+5
+10
+30
+60
+
+Name: dev_functions
+ReadOnly: True
+Values:
+
+
+Name: rc_button_mode
+ReadOnly: False
+Values:
+mode_shutter
+record_capture
+
+Name: timelapse_video_duration
+ReadOnly: False
+Values:
+
+
+Name: timelapse_video_resolution
+ReadOnly: False
+Values:
+1920x1080 60P 16:9
+1920x1080 30P 16:9
+1920x1080 48P 16:9
+1920x1080 24P 16:9
+2304x1296 30P 16:9
+1280x960 60P 4:3
+1280x960 48P 4:3
+1280x720 60P 16:9
+1280x720 48P 16:9
+1280x720 120P 16:9
+848x480 240P 16:9
+
+Name: save_log
+ReadOnly: False
+Values:
+on
+off
+

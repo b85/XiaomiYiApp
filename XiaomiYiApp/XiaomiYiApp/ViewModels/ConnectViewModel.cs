@@ -19,6 +19,7 @@ namespace XiaomiYiApp.ViewModels
         private ICameraConnectionService _connectionService;
         private INavigationService _navigationService;
         private ICameraConfigurationRepository _configurationRepository;
+        private ICaneraStateRepository _cameraStateRepository;
 
         private DelegateCommand _connectCommand;
         private String _statusMessage;
@@ -65,11 +66,13 @@ namespace XiaomiYiApp.ViewModels
             }
         }
 
-        public ConnectViewModel(ICameraConnectionService connectionService, INavigationService navigationService, ICameraConfigurationRepository configurationRepository)
+        public ConnectViewModel(ICameraConnectionService connectionService, INavigationService navigationService,
+            ICameraConfigurationRepository configurationRepository, ICaneraStateRepository cameraStateRepository)
         {
             _connectionService = connectionService;
             _navigationService = navigationService;
             _configurationRepository = configurationRepository;
+            _cameraStateRepository = cameraStateRepository;
             _visualState = VisualStates.Disconnected.ToString();
         }
 
@@ -87,10 +90,14 @@ namespace XiaomiYiApp.ViewModels
                     result = await _configurationRepository.LoadDetailedConfigurationAsync();
                     if (result.Success)
                     {
-                        //VisualState = VisualStates.Connected.ToString();
-                        _navigationService.Navigate(typeof(MainViewModel));
-                        VisualState = VisualStates.Connected.ToString();
-                        return;
+                        result = await _cameraStateRepository.LoadCameraStateAsync();
+                        if (result.Success)
+                        {
+                            //VisualState = VisualStates.Connected.ToString();
+                            _navigationService.Navigate(typeof(MainViewModel));
+                            VisualState = VisualStates.Connected.ToString();
+                            return;
+                        }
                     }
                 }
               

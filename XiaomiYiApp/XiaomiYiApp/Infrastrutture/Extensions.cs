@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using XiaomiYiApp.Model.Enums;
 
 namespace XiaomiYiApp.Infrastrutture
 {
@@ -44,7 +45,50 @@ namespace XiaomiYiApp.Infrastrutture
             return attribute == null ? value.ToString() : attribute.Description;
         }
 
-       
 
+        public static CameraSystemMode GetSystemMode(this CameraRecordingMode recordingMode)
+        {
+            CameraSystemMode mode;
+            switch (recordingMode)
+            {
+                case CameraRecordingMode.PreciseQuality:
+                case CameraRecordingMode.PreciseQualityCont:
+                case CameraRecordingMode.BurstQuality:
+                case CameraRecordingMode.PreciseSelfQuality:
+                    mode = CameraSystemMode.Capture;
+                    break;
+                case CameraRecordingMode.Record:
+                case CameraRecordingMode.RecordTimelapse:
+                    mode = CameraSystemMode.Video;
+                    break;
+                default:
+                    throw new Exception("Unhandled CameraRecordingMode");
+                    //break;
+            }
+
+            return mode;
+        }
+
+
+        public static CameraCaptureMode GetCaptureMode(this CameraRecordingMode recordingMode)
+        {
+            return ((CameraCaptureMode)(int)recordingMode);
+        }
+
+        public static CameraVideoMode GetVideoMode(this CameraRecordingMode recordingMode)
+        {
+            return ((CameraVideoMode)(int)recordingMode);
+        }
+
+
+        public static CameraRecordingMode GetRecordingMode(this CameraVideoMode videoMode)
+        {
+            return ((CameraRecordingMode)(int)videoMode);
+        }
+
+        public static CameraRecordingMode GetRecordingMode(this CameraCaptureMode captureMode)
+        {
+            return ((CameraRecordingMode)(int)captureMode);
+        }
     }
 }

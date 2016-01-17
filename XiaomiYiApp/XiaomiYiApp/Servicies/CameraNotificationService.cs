@@ -53,7 +53,7 @@ namespace XiaomiYiApp.Servicies
 
         private void RaiseBatteryStateChanged(BatteryInfo state)
         {
-            _eventAggregator.GetEvent<BatteryStateChangedEvent>().Publish(state);
+            _eventAggregator.GetEvent<BatteryInfoChangedEvent>().Publish(state);
         }
 
         private void _connectionService_UnhandledMessageReceived(object sender, Model.Events.UnhandledMessageEventArgs e)

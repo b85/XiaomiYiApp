@@ -114,8 +114,8 @@
     <Compile Include="Model\Enums\ConfigurationParameterName.cs" />
     <Compile Include="Model\Enums\Enums.cs" />
     <Compile Include="Model\Enums\StringEnums.cs" />
-    <Compile Include="Model\Events\BatteryStateChangedEvent.cs" />
-    <Compile Include="Model\Events\CameraStateChangedEvent.cs" />
+    <Compile Include="Model\Events\BatteryInfoChangedEvent.cs" />
+    <Compile Include="Model\Events\CameraSystemModeChangedEvent.cs" />
     <Compile Include="Model\Events\UnhandledMessageEventArgs.cs" />
     <Compile Include="Model\Messages\BaseResponseMessage.cs" />
     <Compile Include="Model\Messages\BatteryInfoResponseMessage.cs" />
@@ -134,6 +134,7 @@
     <Compile Include="Repositories\CameraConfigurationRepository.cs" />
     <Compile Include="Repositories\CaneraStateRepository.cs" />
     <Compile Include="Repositories\Interfaces\ICameraConfigurationRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ICaneraStateRepository.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -216,6 +217,7 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="ConfigExample.txt" />
     <Content Include="README_FIRST.txt" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />

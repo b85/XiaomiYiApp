@@ -9,50 +9,130 @@ using XiaomiYiApp.Model.Enums;
 using XiaomiYiApp.Repositories.Interfaces;
 using XiaomiYiApp.Servicies.Interfaces;
 using XiaomiYiApp.Infrastrutture;
+using XiaomiYiApp.Model.Events;
 
 namespace XiaomiYiApp.Repositories
 {
-    class CaneraStateRepository
+    class CaneraStateRepository : ICaneraStateRepository
     {
         private CameraState _currentState;
 
         private IEventAggregator _eventAggregator;
         private ICameraConfigurationService _configurationService;
 
+        public Boolean IsLoaded
+        {
+            get
+            {
+                return _currentState != null;
+            }
+        }
+
+        public CaneraStateRepository(IEventAggregator eventAggregator, ICameraConfigurationService configurationService)
+        {
+            _eventAggregator = eventAggregator;
+            _configurationService = configurationService;
+            _eventAggregator.GetEvent<CameraSystemModeChangedEvent>().Subscribe((mode) =>
+                                                                                        {
+                                                                                            if (IsLoaded)
+                                                                                            {
+                                                                                                _currentState.SystemMode = mode;
+                                                                                            }
+                                                                                        });
+            _eventAggregator.GetEvent<BatteryInfoChangedEvent>().Subscribe((batteryInfo) =>
+            {
+                if (IsLoaded)
+                {
+                    _currentState.Battery = batteryInfo;
+                }
+            });
+        }
+
         public async Task<OperationResult> LoadCameraStateAsync()
         {
             //CameraState currentState = new CameraState();
-            var confTask = _configurationService.GetConfigurationAsync();
-            var sdCardTask =  GetSdCardInfoAsync();
-            var batteryTask = _configurationService.GetBatteryInfoAsync();
-            if (!(await confTask).Success)
-            {
-               return OperationResult.FromResult(confTask.Result);
-            }
-            if (!(await sdCardTask).Success)
-            {
-                return OperationResult.FromResult(sdCardTask.Result);
-            }
-            if (!(await batteryTask).Success)
-            {
-                return OperationResult.FromResult(sdCardTask.Result);
-            }
 
+           var batteryTask = await _configurationService.GetBatteryInfoAsync();
+
+            var confTask = await _configurationService.GetConfigurationAsync();
+            var sdCardTask = await _configurationService.GetSdCardInfoAsync();
+
+
+
+
+            if (!(confTask).Success)
+            {
+                return OperationResult.FromResult(confTask);
+            }
+            if (!(sdCardTask).Success)
+            {
+                return OperationResult.FromResult(sdCardTask);
+            }
+            if (!(batteryTask).Success)
+            {
+                return OperationResult.FromResult(sdCardTask);
+            }
 
             _currentState = new CameraState();
-            _currentState.VideoMode = confTask.Result.Result.GetValue("TODO").GetEnumFromDescription<CameraVideoMode>();
-            _currentState.CaptureMode = confTask.Result.Result.GetValue("TODO").GetEnumFromDescription<CameraCaptureMode>();
-            _currentState.SystemMode = confTask.Result.Result.GetValue("TODO").GetEnumFromDescription<CameraSystemMode>();
-            _currentState.Storage = sdCardTask.Result.Result;
-            _currentState.Battery = batteryTask.Result.Result;
+            _currentState.VideoMode = confTask.Result.GetValue(ConfigurationParameterName.REC_MODE).GetEnumFromDescription<CameraVideoMode>();
+            _currentState.CaptureMode = confTask.Result.GetValue(ConfigurationParameterName.CAPTURE_MODE).GetEnumFromDescription<CameraCaptureMode>();
+            _currentState.SystemMode = confTask.Result.GetValue(ConfigurationParameterName.SYSTEM_MODE).GetEnumFromDescription<CameraSystemMode>();
+            _currentState.Storage = sdCardTask.Result;
+            _currentState.Battery = batteryTask.Result;
+                //new BatteryInfo { BatteryLevel = 100, BatteryStatus = BatteryStatus.InUse }; 
 
-            return OperationResult.FromResult(sdCardTask.Result);
+            return new OperationResult { Success = true };
         }
 
-        public async Task<OperationResult<SdCardInfo>> GetSdCardInfoAsync()
+       
+
+        public CameraState GetCurrentCameraState()
         {
-            //TODO
-            return OperationResult<SdCardInfo>.GetSucces(null);
+            return _currentState;
+        }
+
+        public Task<OperationResult> SetSystemModeAsync(CameraSystemMode systemMode)
+        {
+            return _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.SYSTEM_MODE, systemMode.GetDescription());
+        }
+
+        public Task<OperationResult> SetVideoModeAsync(CameraVideoMode videoMode)
+        {
+            return _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.REC_MODE, videoMode.GetDescription());
+        }
+
+        public Task<OperationResult> SetCaptureModeAsync(CameraCaptureMode captureMode)
+        {
+            return _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.CAPTURE_MODE, captureMode.GetDescription());
+        }
+
+        public async Task<OperationResult> SetCameraRecordingMode(CameraRecordingMode recordingMode)
+        {
+            OperationResult opRes;// = new OperationResult { Success = true, };
+            var newSystemMode = recordingMode.GetSystemMode();
+            if (_currentState.SystemMode != newSystemMode)
+            {
+                opRes =  await SetSystemModeAsync(newSystemMode);
+                if (!opRes.Success)
+                {
+                    return opRes;
+                }
+            }
+
+            switch (newSystemMode)
+            {
+                case CameraSystemMode.Capture:
+                    opRes = await SetCaptureModeAsync(recordingMode.GetCaptureMode());
+                    break;
+                case CameraSystemMode.Video:
+                    opRes = await SetVideoModeAsync(recordingMode.GetVideoMode());
+                    break;
+                default:
+                    throw new Exception("Unhandled CameraSystemMode");
+                    //break;
+            }
+
+            return opRes;
         }
     }
 }

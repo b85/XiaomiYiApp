@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using XiaomiYiApp.Model.Events;
+using XiaomiYiApp.Repositories.Interfaces;
 
 namespace XiaomiYiApp.ViewModels
 {
@@ -26,11 +27,12 @@ namespace XiaomiYiApp.ViewModels
                 }
             }
         }
-        
-        public BatteryViewModel(IEventAggregator eventAggregator)
+
+        public BatteryViewModel(IEventAggregator eventAggregator, ICaneraStateRepository cameraStateRepository)
         {
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<BatteryStateChangedEvent>().Subscribe((e) => { BatteryLevel = e.BatteryLevel; }, ThreadOption.UIThread);
+            _eventAggregator.GetEvent<BatteryInfoChangedEvent>().Subscribe((e) => { BatteryLevel = e.BatteryLevel; }, ThreadOption.UIThread);
+            _batteryLevel = cameraStateRepository.GetCurrentCameraState().Battery.BatteryLevel;
         }
     }
 }

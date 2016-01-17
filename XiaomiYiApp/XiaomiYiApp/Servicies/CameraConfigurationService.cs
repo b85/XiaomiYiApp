@@ -226,6 +226,24 @@ namespace XiaomiYiApp.Servicies
 		battery = "%s: %s%%" %(Ctype, charge)
              */
         }
+
+        public async Task<OperationResult<SdCardInfo>> GetSdCardInfoAsync()
+        {
+            //TODO
+            var sdSize = await GetSdCardSizeAsync();
+            if (!(sdSize).Success)
+            {
+                return OperationResult<SdCardInfo>.FromResult(sdSize);
+            }
+
+            var sdFreeSapce = await GetSdCardFreeSpaceAsync();
+            if (!(sdFreeSapce).Success)
+            {
+                return OperationResult<SdCardInfo>.FromResult(sdFreeSapce);
+            }
+
+            return OperationResult<SdCardInfo>.GetSucces(new SdCardInfo { FreeSpace = sdFreeSapce.Result, Size = sdSize.Result });
+        }
         #endregion
     }
 }

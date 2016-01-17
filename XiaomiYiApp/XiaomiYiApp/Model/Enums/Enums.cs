@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -32,18 +33,41 @@ namespace XiaomiYiApp.Model.Enums
 
     public enum CameraSystemMode
     {
+        [Description("capture")]
         Capture,  //photo
+        [Description("record")]
         Video
     }
 
     public enum CameraVideoMode
     {
-        //TODO
+        [Description("record")]
+        Record = 4,
+        [Description("record_timelapse")]
+        RecordTimelapse = 5
     }
 
     public enum CameraCaptureMode
     {
-        //TODO
+        [Description("precise quality")]
+        PreciseQuality = 0,
+        [Description("precise quality cont.")]
+        PreciseQualityCont = 1,
+        [Description("burst quality")]
+        BurstQuality = 2,
+        [Description("precise self quality")]
+        PreciseSelfQuality = 3,
+
         //precise quality#precise quality cont.#burst quality#precise self quality
+    }
+
+    public enum CameraRecordingMode
+    {
+        PreciseQuality = 0,  
+        PreciseQualityCont = 1,
+        BurstQuality = 2,
+        PreciseSelfQuality = 3,
+        Record = 4,
+        RecordTimelapse = 5
     }
 }

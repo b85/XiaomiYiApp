@@ -76,7 +76,7 @@ namespace XiaomiYiApp.ViewModels
             //    return;
             //}
 
-            IsWaiting = true;
+            //IsWaiting = true;
             var result = await _cameraConfigurationRepository.GetDetailedConfigurationAsync();
             if(result.Success)
             {
@@ -110,7 +110,7 @@ namespace XiaomiYiApp.ViewModels
                 //OnPropertyChanged("VideoParameters");
                 //OnPropertyChanged("PhotoParameters");
                 //OnPropertyChanged("SystemParameters");
-                IsWaiting = false;
+                //IsWaiting = false;
             }
             else
             {
@@ -145,7 +145,9 @@ namespace XiaomiYiApp.ViewModels
            // throw new NotImplementedException();
             if (navigationMode == System.Windows.Navigation.NavigationMode.New)
             {
+                IsWaiting = true;
                 await LoadDetailedConfigurationAsync();
+                IsWaiting = false;
             }
         }
 

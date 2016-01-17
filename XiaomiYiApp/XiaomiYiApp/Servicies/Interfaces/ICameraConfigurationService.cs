@@ -27,5 +27,7 @@ namespace XiaomiYiApp.Servicies.Interfaces
 
          Task<OperationResult<BatteryInfo>> GetBatteryInfoAsync();
 
+         Task<OperationResult<SdCardInfo>> GetSdCardInfoAsync();
+    
     }
 }

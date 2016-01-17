@@ -8,7 +8,7 @@ namespace XiaomiYiApp.Model.Entities
 {
     public class SdCardInfo
     {
-        public int FreeSpace { get; set; }
-        public int Size { get; set; }
+        public float FreeSpace { get; set; }
+        public float Size { get; set; }
     }
 }
