@@ -24,7 +24,7 @@ namespace XiaomiYiApp.Servicies
         #region Sync
         public OperationResult<Configuration> GetConfiguration()
         {
-            var opResult = _connectionManager.SendMessage<FullConfigResponseMessage>(new RequestMessage { MessageId = (int)MessageType.ConfigurationGet });
+            var opResult = _connectionManager.SendMessage<FullConfigResponseMessage>(new RequestMessage { MessageId = (int)MessageTypeId.ConfigurationGet });
             if (opResult.Success)
             {
                 return OperationResult<Configuration>.GetSucces(new Configuration { Parameters = Helpers.GetConfigurationFromMessage(opResult.Result) });
@@ -46,7 +46,7 @@ namespace XiaomiYiApp.Servicies
 
                     var detailOpResult = _connectionManager.SendMessage<ConfigDetailResponseMessage>(new RequestMessageWithParam
                     {
-                        MessageId = (int)MessageType.ConfigurationGet,
+                        MessageId = (int)MessageTypeId.ConfigurationGet,
                         Param = param.Name,
                     });
 
@@ -74,7 +74,7 @@ namespace XiaomiYiApp.Servicies
         {
             RequestMessageWithParamType requestMsg = new RequestMessageWithParamType
             {
-                MessageId = (int)MessageType.ConfigurationSet,
+                MessageId = (int)MessageTypeId.ConfigurationSet,
                 Param = value,
                 Type = name,
             };
@@ -89,7 +89,7 @@ namespace XiaomiYiApp.Servicies
         #region Async
         public async Task<OperationResult<Configuration>> GetConfigurationAsync()
         {
-            var opResult = await _connectionManager.SendMessageAsync<FullConfigResponseMessage>(new RequestMessage { MessageId = (int)MessageType.ConfigurationGet });
+            var opResult = await _connectionManager.SendMessageAsync<FullConfigResponseMessage>(new RequestMessage { MessageId = (int)MessageTypeId.ConfigurationGet });
             if (opResult.Success)
             {
                 return OperationResult<Configuration>.GetSucces(new Configuration { Parameters = Helpers.GetConfigurationFromMessage(opResult.Result) });
@@ -111,7 +111,7 @@ namespace XiaomiYiApp.Servicies
 
                     var detailOpResult = await _connectionManager.SendMessageAsync<ConfigDetailResponseMessage>(new RequestMessageWithParam
                     {
-                        MessageId = (int)MessageType.ConfigurationGet,
+                        MessageId = (int)MessageTypeId.ConfigurationGet,
                         Param = param.Name,
                     });
 
@@ -139,7 +139,7 @@ namespace XiaomiYiApp.Servicies
         {
             RequestMessageWithParamType requestMsg = new RequestMessageWithParamType
             {
-                MessageId = (int)MessageType.ConfigurationSet,
+                MessageId = (int)MessageTypeId.ConfigurationSet,
                 Param = value,
                 Type = name,
             };
@@ -154,7 +154,7 @@ namespace XiaomiYiApp.Servicies
         {
             RequestMessageWithType requestMsg = new RequestMessageWithType
             {
-                MessageId = (int)MessageType.SdCardInfo,
+                MessageId = (int)MessageTypeId.SdCardInfo,
                 Type = SdCardInfoMessageType.FREE_SPACE,
             };
 
@@ -175,7 +175,7 @@ namespace XiaomiYiApp.Servicies
         {
             RequestMessageWithType requestMsg = new RequestMessageWithType
             {
-                MessageId = (int)MessageType.SdCardInfo,
+                MessageId = (int)MessageTypeId.SdCardInfo,
                 Type = SdCardInfoMessageType.TOTAL_SPACE,
             };
 
@@ -199,7 +199,7 @@ namespace XiaomiYiApp.Servicies
 
         public async Task<OperationResult<BatteryInfo>> GetBatteryInfoAsync()
         {
-            RequestMessage requestMsg = new RequestMessage {  MessageId = (int)MessageType.BatteryInfo,};
+            RequestMessage requestMsg = new RequestMessage {  MessageId = (int)MessageTypeId.BatteryInfo,};
 
             var opRes = await _connectionManager.SendMessageAsync<BatteryInfoResponseMessage>(requestMsg);
             if (opRes.Success)

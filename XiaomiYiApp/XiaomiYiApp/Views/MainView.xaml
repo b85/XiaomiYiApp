@@ -46,11 +46,16 @@
             
             <StackPanel Orientation="Vertical">
                 <toolkit:ListPicker Header="Mode" SelectionMode="Single" ItemsSource="{Binding AvailableRecodingMode}" 
-                                    SelectedItem="{Binding SelectedRecordingMode}"
-                                    ></toolkit:ListPicker>
+                                    SelectedItem="{Binding SelectedRecordingMode}" >
+                   
+                </toolkit:ListPicker>
             </StackPanel>
 
-            <!--<Grid Grid.Row="1" x:Name="VideoModeView">
+            <!--<Grid Grid.Row="1" >
+                <Button 
+            </Grid>-->
+
+                <!--<Grid Grid.Row="1" x:Name="VideoModeView">
                 <StackPanel Orientation="Vertical">
                     <TextBlock  Text="{Binding StatusMessage}" Margin="10,20" TextAlignment="Center"
                                 Foreground="Red" Style="{StaticResource PhoneTextNormalStyle}"/>

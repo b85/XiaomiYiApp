@@ -13,14 +13,18 @@ namespace XiaomiYiApp.Model.Enums
         InCharge,
     }
 
-    public enum MessageType
+    public enum MessageTypeId
     {
         Connect = 257,
         ConfigurationGet = 3,
         ConfigurationSet = 2,
         Notification = 7,
         SdCardInfo = 5,
-        BatteryInfo = 13
+        BatteryInfo = 13,
+        StartVideoRec = 513,
+        StopVideoRec = 514,
+        CapturePhoto = 769,
+        CapturePhotoCont = 770,
     }
 
     public enum ConfigurationParameteDataType

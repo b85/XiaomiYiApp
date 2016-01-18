@@ -58,7 +58,7 @@ namespace XiaomiYiApp.Servicies
 
         private void _connectionService_UnhandledMessageReceived(object sender, Model.Events.UnhandledMessageEventArgs e)
         {
-            if (e.Message.MessageId == (int)MessageType.Notification)
+            if (e.Message.MessageId == (int)MessageTypeId.Notification)
             {
                 ManageNotificationMessage(e.Message);
             }

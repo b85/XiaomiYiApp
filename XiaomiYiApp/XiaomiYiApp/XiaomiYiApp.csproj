@@ -145,9 +145,11 @@
     <Compile Include="Servicies\CameraConfigurationService.cs" />
     <Compile Include="Servicies\CameraConnectionService.cs" />
     <Compile Include="Servicies\CameraNotificationService.cs" />
+    <Compile Include="Servicies\CameraRecordingService.cs" />
     <Compile Include="Servicies\Interfaces\ICameraConfigurationService.cs" />
     <Compile Include="Servicies\Interfaces\ICameraConnectionService.cs" />
     <Compile Include="Servicies\Interfaces\ICameraNotificationService.cs" />
+    <Compile Include="Servicies\Interfaces\ICameraRecordingService.cs" />
     <Compile Include="Servicies\Interfaces\IMsgBoxService.cs" />
     <Compile Include="Servicies\MsgBoxService.cs" />
     <Compile Include="ViewModels\BatteryViewModel.cs" />
