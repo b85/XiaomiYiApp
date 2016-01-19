@@ -7,7 +7,20 @@
 
     <!--Application Resources-->
     <Application.Resources>
-        <local:LocalizedStrings xmlns:local="clr-namespace:XiaomiYiApp" x:Key="LocalizedStrings"/>
+        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <!-- 
+                    Styles that define common aspects of the platform look and feel
+                    Required by Visual Studio project and item templates
+                 -->      
+                <ResourceDictionary Source="Themes/Styles.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+            
+            <local:LocalizedStrings xmlns:local="clr-namespace:XiaomiYiApp" x:Key="LocalizedStrings"/>    
+        </ResourceDictionary>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

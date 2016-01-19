@@ -1,0 +1,104 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ieCore="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+                    xmlns:im="clr-namespace:Microsoft.Expression.Interactivity.Media;assembly=Microsoft.Expression.Interactions"
+                    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                    xmlns:customControl="clr-namespace:XiaomiYiApp.CustomControls">
+
+    <Style TargetType="customControl:RecordButton">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="customControl:RecordButton" >
+                        <Grid >
+                            <Grid.Resources>
+                                <Storyboard AutoReverse="True" x:Key="blinkAnimation" RepeatBehavior="Forever" >
+                                    <DoubleAnimation  Storyboard.TargetName="blinkEllipse" Storyboard.TargetProperty="Opacity"
+                                              From="0" To="1" Duration="0:0:1"/>
+                                </Storyboard>
+                            </Grid.Resources>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <DoubleAnimation 
+                                            Storyboard.TargetName="buttonLayoutRoot"
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                            To="0.9" Duration="0:0:0"/>
+                                            <DoubleAnimation 
+                                            Storyboard.TargetName="buttonLayoutRoot"
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                            To="0.9" Duration="0:0:0"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimation To="DarkGray" Duration="0:0:0"
+                                                Storyboard.TargetName="redcordEllipse" 
+                                                Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)">
+                                            </ColorAnimation>
+                                            <ColorAnimation To="DarkGray" Duration="0:0:0"
+                                                Storyboard.TargetName="borderEllipse" 
+                                                Storyboard.TargetProperty="(Stroke).(SolidColorBrush.Color)">
+                                            </ColorAnimation>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <!--<VisualState x:Name="Blinking">
+                            <Storyboard AutoReverse="True" RepeatBehavior="Forever">
+                                <DoubleAnimation  Storyboard.TargetName="blinkEllipse"  Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                  From="0"  To="1" Duration="0:0:1">
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </VisualState>-->
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <i:Interaction.Triggers>
+                                <!--<i:EventTrigger EventName="Loaded">
+                        <im:ControlStoryboardAction Storyboard="{StaticResource blinkAnimation}" ControlStoryboardOption="Play"/>
+                    </i:EventTrigger>-->
+                                <ieCore:DataTrigger Binding="{Binding Path=IsBlinking, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True">
+                                    <im:ControlStoryboardAction Storyboard="{StaticResource blinkAnimation}" ControlStoryboardOption="Play"/>
+                                    <ieCore:ChangePropertyAction TargetName="redcordEllipse" PropertyName="Visibility">
+                                        <ieCore:ChangePropertyAction.Value>
+                                            <Visibility>Collapsed</Visibility>
+                                        </ieCore:ChangePropertyAction.Value>
+                                    </ieCore:ChangePropertyAction>
+                                    <ieCore:ChangePropertyAction TargetName="stopRettagle" PropertyName="Visibility">
+                                        <ieCore:ChangePropertyAction.Value>
+                                            <Visibility>Visible</Visibility>
+                                        </ieCore:ChangePropertyAction.Value>
+                                    </ieCore:ChangePropertyAction>
+                                </ieCore:DataTrigger>
+                                <ieCore:DataTrigger Binding="{Binding Path=IsBlinking, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="False">
+                                    <im:ControlStoryboardAction Storyboard="{StaticResource blinkAnimation}" ControlStoryboardOption="Stop"/>
+                                    <ieCore:ChangePropertyAction TargetName="stopRettagle" PropertyName="Visibility">
+                                        <ieCore:ChangePropertyAction.Value>
+                                            <Visibility>Collapsed</Visibility>
+                                        </ieCore:ChangePropertyAction.Value>
+                                    </ieCore:ChangePropertyAction>
+                                    <ieCore:ChangePropertyAction TargetName="redcordEllipse" PropertyName="Visibility">
+                                        <ieCore:ChangePropertyAction.Value>
+                                            <Visibility>Visible</Visibility>
+                                        </ieCore:ChangePropertyAction.Value>
+                                    </ieCore:ChangePropertyAction>
+                                </ieCore:DataTrigger>
+                            </i:Interaction.Triggers>
+                            <Grid x:Name="buttonLayoutRoot"  RenderTransformOrigin="0.5 0.5"  >
+                                <Grid.RenderTransform >
+                                    <ScaleTransform />
+                                </Grid.RenderTransform>
+                                <Ellipse x:Name="blinkEllipse" Margin="1" Fill="DarkRed" Opacity="0"   />
+                                <Ellipse x:Name="borderEllipse" Stroke="White" StrokeThickness="3"/>
+                                <Ellipse x:Name="redcordEllipse" Margin="20" Fill="DarkRed" ></Ellipse>
+                                <Rectangle x:Name="stopRettagle" Margin="25" Fill="White" Visibility="Collapsed"/>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+</ResourceDictionary>

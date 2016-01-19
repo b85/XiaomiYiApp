@@ -1,0 +1,4 @@
+﻿http://blogs.msdn.com/b/madenwal/archive/2015/02/09/collection-of-modern-ui-icon-libraries-on-the-web-for-free.aspx
+https://github.com/Templarian/WindowsIcons/tree/master/WindowsPhone
+https://icons8.com/download-huge-windows8-set/
+http://modernuiicons.com/

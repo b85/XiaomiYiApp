@@ -17,22 +17,35 @@ namespace XiaomiYiApp.CustomControls
         public bool IsBlinking
         {
             get { return (bool)GetValue(IsBlinkingProperty); }
-            set { SetValue(IsBlinkingProperty, value); }
+            set 
+            {
+                if (IsEnabled || !value)
+                {
+                    SetValue(IsBlinkingProperty, value);
+                }
+            }
+        }
+
+        public RecordButton()
+        {
+            this.IsEnabledChanged += RecordButton_IsEnabledChanged;
+        }
+
+        void RecordButton_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((Boolean)e.NewValue)
+            {
+                IsBlinking = false;
+            }
         }
 
         private static void IsBlinkingPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            VisualStateManager.GoToState(((RecordButton)d), (Boolean)e.NewValue ? "Blinking" : "Normal",false);
+           // VisualStateManager.GoToState(((RecordButton)d), (Boolean)e.NewValue ? "Blinking" : "Normal",false);
              
         }
 
-        protected override void OnIsPressedChanged(DependencyPropertyChangedEventArgs e)
-        {
-            base.OnIsPressedChanged(e);
-            if (!((Boolean)e.NewValue) && IsBlinking)
-            {
-                VisualStateManager.GoToState(this, "Blinking" , false);
-            }
-        }
+        
+      
     }
 }

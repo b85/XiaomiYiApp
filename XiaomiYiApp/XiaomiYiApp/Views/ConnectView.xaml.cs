@@ -15,6 +15,7 @@ namespace XiaomiYiApp.Views
     {
         public ConnectView()
         {
+            
             InitializeComponent();
            // INavigate
            /// this.NavigationService.
