@@ -98,6 +98,7 @@
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\OnOffToBooleanConverter.cs" />
     <Compile Include="CustomControls\CustomListPicker.cs" />
+    <Compile Include="CustomControls\RecordButton.cs" />
     <Compile Include="Infrastrutture\Extensions.cs" />
     <Compile Include="Infrastrutture\Helpers.cs" />
     <Compile Include="Infrastrutture\RequestStateObject.cs" />

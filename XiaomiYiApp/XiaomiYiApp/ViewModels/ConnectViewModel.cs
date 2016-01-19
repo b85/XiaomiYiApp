@@ -22,10 +22,9 @@ namespace XiaomiYiApp.ViewModels
         private ICaneraStateRepository _cameraStateRepository;
 
         private DelegateCommand _connectCommand;
+        private DelegateCommand _disconnectCommand;
         private String _statusMessage;
         private String _visualState;
-
-
 
         public String VisualState
         {
@@ -66,6 +65,29 @@ namespace XiaomiYiApp.ViewModels
             }
         }
 
+        public ICommand DisconnectCommand
+        {
+            get
+            {
+                if (_disconnectCommand == null)
+                {
+                    _disconnectCommand = new DelegateCommand(DisconnectCommandExecute, DisconnectCommandCanExecute);
+                }
+
+                return _disconnectCommand;
+            }
+        }
+
+        private bool DisconnectCommandCanExecute()
+        {
+            return true;
+        }
+
+        private void DisconnectCommandExecute()
+        {
+            
+        }
+
         public ConnectViewModel(ICameraConnectionService connectionService, INavigationService navigationService,
             ICameraConfigurationRepository configurationRepository, ICaneraStateRepository cameraStateRepository)
         {
@@ -74,11 +96,12 @@ namespace XiaomiYiApp.ViewModels
             _configurationRepository = configurationRepository;
             _cameraStateRepository = cameraStateRepository;
             _visualState = VisualStates.Disconnected.ToString();
+            
         }
 
         private async void ConnectCommandExecute()
         {
-
+            return;
             if (IsWifiConnected())
             {
                 VisualState = VisualStates.Connecting.ToString();
