@@ -159,15 +159,17 @@ namespace XiaomiYiApp.ViewModels
         public void OnNavigatedTo(object navigationParameter, System.Windows.Navigation.NavigationMode navigationMode, Dictionary<string, object> viewModelState)
         {
             // throw new NotImplementedException();
-            CameraState camState = _cameraStateRepository.GetCurrentCameraState();
+           
             if (navigationMode == System.Windows.Navigation.NavigationMode.New)
             {
+                CameraState camState = _cameraStateRepository.GetCurrentCameraState();
                 AvailableAcquisitionMode = Helpers.EnumToList<CameraAppAcquisitionMode>();
                 SelectedAcquisitionMode = camState.AppAcquisitionMode;
+                _appStatus = camState.AppStatus;
+                UpdateVisualState();
             }
             
-            _appStatus = camState.AppStatus;
-            UpdateVisualState();
+            
         }
 
         public void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)

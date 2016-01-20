@@ -93,17 +93,20 @@ namespace XiaomiYiApp.Repositories
 
         public async Task<OperationResult> SetSystemModeAsync(CameraSystemMode systemMode)
         {
+            _currentState.SystemMode = systemMode;
             return await _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.SYSTEM_MODE, systemMode.GetDescription());
         }
 
-        public Task<OperationResult> SetRecordModeAsync(CameraRecordMode recordMode)
+        public async Task<OperationResult> SetRecordModeAsync(CameraRecordMode recordMode)
         {
-            return _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.REC_MODE, recordMode.GetDescription());
+            _currentState.RecordMode = recordMode;
+            return await _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.REC_MODE, recordMode.GetDescription());
         }
 
-        public Task<OperationResult> SetCaptureModeAsync(CameraCaptureMode captureMode)
+        public async Task<OperationResult> SetCaptureModeAsync(CameraCaptureMode captureMode)
         {
-            return _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.CAPTURE_MODE, captureMode.GetDescription());
+            _currentState.CaptureMode = captureMode;
+            return await _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.CAPTURE_MODE, captureMode.GetDescription());
         }
 
         public async Task<OperationResult> SetAppAcquisitionMode(CameraAppAcquisitionMode acquisitionMode)
