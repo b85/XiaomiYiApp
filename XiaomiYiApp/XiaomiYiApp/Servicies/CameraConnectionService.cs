@@ -67,16 +67,16 @@ namespace XiaomiYiApp.Servicies
                 var responseMessage = jObject.ToObject<T>();
                 if (responseMessage.Success)
                 {
-                    return OperationResult<T>.GetSucces(responseMessage);
+                    return OperationResult.GetSucces(responseMessage);
                 }
                 else
                 {
-                    var opResult = OperationResult<T>.GetFail(responseMessage.Result.ToString());
+                    var opResult = OperationResult.GetFail<T>(responseMessage.Result.ToString());
                     opResult.Result = responseMessage;
                 }
             }
 
-            return OperationResult<T>.GetFail(rawResponse.ResultMessage);
+            return OperationResult.GetFail<T>(rawResponse.ResultMessage);
         }
 
         public OperationResult<RawResponseMessage> SendMessage(RequestMessage message)
@@ -235,7 +235,7 @@ namespace XiaomiYiApp.Servicies
                 }
             }
 
-            return OperationResult<T>.GetFail(rawResponse.ResultMessage);
+            return OperationResult.GetFail<T>(rawResponse.ResultMessage);
         }
 
         public async Task<OperationResult> ConnenctDataAsync()
@@ -282,12 +282,12 @@ namespace XiaomiYiApp.Servicies
             OperationResult<ConnectResponseMessage> sendOpResult = SendMessage<ConnectResponseMessage>(request);
             if (sendOpResult.Success)
             {
-                opResult = OperationResult<int>.GetSucces(sendOpResult.Result.Param);
+                opResult = OperationResult.GetSucces(sendOpResult.Result.Param);
                 
             }
             else
             {
-                opResult = OperationResult<int>.GetFail(sendOpResult.ResultMessage);
+                opResult = OperationResult.GetFail<int>(sendOpResult.ResultMessage);
             }
 
             return opResult;
@@ -300,12 +300,12 @@ namespace XiaomiYiApp.Servicies
             OperationResult<ConnectResponseMessage> sendOpResult = await SendMessageAsync<ConnectResponseMessage>(request);
             if (sendOpResult.Success)
             {
-                opResult = OperationResult<int>.GetSucces(sendOpResult.Result.Param);
+                opResult = OperationResult.GetSucces(sendOpResult.Result.Param);
 
             }
             else
             {
-                opResult = OperationResult<int>.GetFail(sendOpResult.ResultMessage);
+                opResult = OperationResult.GetFail<int>(sendOpResult.ResultMessage);
             }
 
             return opResult;
@@ -433,7 +433,7 @@ namespace XiaomiYiApp.Servicies
                         else
                         {
                             //TODO raise received msg event
-                            //Console.WriteLine("Message_to_event: " + item.JsonMessage);
+                            System.Diagnostics.Debug.WriteLine("Unhandled Message: " + rawMessage.JsonMessage);
                             OnUnhadledMassageReceived(rawMessage);
                         }
                     }

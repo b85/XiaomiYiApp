@@ -10,11 +10,11 @@ using XiaomiYiApp.Servicies.Interfaces;
 
 namespace XiaomiYiApp.Servicies
 {
-    public class CameraRecordingService : ICameraRecordingService
+    public class CameraAcquisitionService : ICameraAcquisitionService
     {
         private ICameraConnectionService _cameraConnectionService;
 
-        public CameraRecordingService(ICameraConnectionService cameraConnectionService)
+        public CameraAcquisitionService(ICameraConnectionService cameraConnectionService)
         {
             _cameraConnectionService = cameraConnectionService;
         }

@@ -44,7 +44,7 @@ namespace XiaomiYiApp.Repositories
                     }
                 }
 
-                return   OperationResult<DetailedConfiguration>.GetSucces(_detailedConfigurationCache);
+                return   OperationResult.GetSucces(_detailedConfigurationCache);
             }
 
             return await _configurationService.GetDetailedConfigurationAsync();

@@ -95,6 +95,7 @@ namespace XiaomiYiApp
             _container.RegisterType<ICameraConnectionService, CameraConnectionService>(new ContainerControlledLifetimeManager());
             // _container.RegisterType<ICameraNotificationService, CameraNotificationService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ICameraConfigurationService, CameraConfigurationService>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<ICameraAcquisitionService, CameraAcquisitionService>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ICameraConfigurationRepository, CameraConfigurationRepository>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ICaneraStateRepository, CaneraStateRepository>(new ContainerControlledLifetimeManager());
             _container.RegisterType<ConnectViewModel>();

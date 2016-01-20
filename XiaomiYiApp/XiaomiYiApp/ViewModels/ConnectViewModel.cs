@@ -101,7 +101,6 @@ namespace XiaomiYiApp.ViewModels
 
         private async void ConnectCommandExecute()
         {
-            return;
             if (IsWifiConnected())
             {
                 VisualState = VisualStates.Connecting.ToString();

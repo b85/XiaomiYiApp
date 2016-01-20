@@ -40,10 +40,10 @@ namespace XiaomiYiApp.Model.Enums
         [Description("capture")]
         Capture,  //photo
         [Description("record")]
-        Video
+        Record
     }
 
-    public enum CameraVideoMode
+    public enum CameraRecordMode
     {
         [Description("record")]
         Record = 4,
@@ -65,7 +65,7 @@ namespace XiaomiYiApp.Model.Enums
         //precise quality#precise quality cont.#burst quality#precise self quality
     }
 
-    public enum CameraRecordingMode
+    public enum CameraAppAcquisitionMode
     {
         PreciseQuality = 0,  
         PreciseQualityCont = 1,
@@ -73,5 +73,27 @@ namespace XiaomiYiApp.Model.Enums
         PreciseSelfQuality = 3,
         Record = 4,
         RecordTimelapse = 5
+    }
+
+    public enum CamereAppStatus
+    {
+        [Description("idle")]
+        Idle,
+        [Description("vf")]
+        Vf,
+        [Description("record")]
+        Record,
+        [Description("recording")]
+        Recording,
+        [Description("capture")]
+        Capture,
+        [Description("precise_cont_capturing")]
+        PreciseContCapturing,
+        [Description("burst_capturing")]
+        BurstCapturing,
+        [Description("precise_capturing")]
+        PreciseCapturing,
+        [Description("operation_done")]
+        OperationDone,
     }
 }

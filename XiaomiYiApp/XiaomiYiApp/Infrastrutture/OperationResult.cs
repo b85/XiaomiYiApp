@@ -10,11 +10,38 @@ namespace XiaomiYiApp.Model.Entities
         public Boolean Success { get; set; }
         public String ResultMessage { get; set; }
 
+        public OperationResult()
+        { }
+
+        public OperationResult(Boolean success, String resultMessage = null)
+        {
+            Success = success;
+            ResultMessage = resultMessage;
+        }
+
         public static OperationResult FromResult(OperationResult opResult)
         {
             return new OperationResult { ResultMessage = opResult.ResultMessage, Success = opResult.Success };
         }
 
+
+        public static OperationResult<T> GetSucces<T>(T result)
+        {
+            return new OperationResult<T>
+            {
+                Success = true,
+                Result = result,
+            };
+        }
+
+        public static OperationResult<T> GetFail<T>(String resultMessage)
+        {
+            return new OperationResult<T>
+            {
+                Success = false,
+                ResultMessage = resultMessage,
+            };
+        }
         //public static OperationResult GetSucces()
         //{
         //    return new OperationResult
@@ -45,23 +72,23 @@ namespace XiaomiYiApp.Model.Entities
 
         }
 
-        public static OperationResult<T> GetSucces(T result)
-        {
-            return new OperationResult<T>
-            {
-                Success = true,
-                Result = result,
-            };
-        }
+        //public static OperationResult<T> GetSucces(T result)
+        //{
+        //    return new OperationResult<T>
+        //    {
+        //        Success = true,
+        //        Result = result,
+        //    };
+        //}
 
-        public static OperationResult<T> GetFail(String resultMessage)
-        {
-            return new OperationResult<T>
-            {
-                Success = false,
-                ResultMessage = resultMessage,
-            };
-        }
+        //public static OperationResult<T> GetFail(String resultMessage)
+        //{
+        //    return new OperationResult<T>
+        //    {
+        //        Success = false,
+        //        ResultMessage = resultMessage,
+        //    };
+        //}
 
         public static OperationResult<T> GetFail(String resultMessage, T result)
         {

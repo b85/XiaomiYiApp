@@ -18,11 +18,11 @@ namespace XiaomiYiApp.Repositories.Interfaces
 
         Task<OperationResult> SetSystemModeAsync(CameraSystemMode systemMode);
         
-        Task<OperationResult> SetVideoModeAsync(CameraVideoMode videoMode);
+        Task<OperationResult> SetRecordModeAsync(CameraRecordMode recordMode);
        
         Task<OperationResult> SetCaptureModeAsync(CameraCaptureMode captureMode);
-      
-        Task<OperationResult> SetCameraRecordingMode(CameraRecordingMode recordingMode);
+
+        Task<OperationResult> SetAppAcquisitionMode(CameraAppAcquisitionMode acquisitionMode);
     
     }
 }

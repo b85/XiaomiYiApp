@@ -23,22 +23,41 @@ namespace XiaomiYiApp.ViewModels
         private  IEventAggregator _eventAggregator;
         private INavigationService _navigationService;
         private ICaneraStateRepository _cameraStateRepository;
+        private ICameraAcquisitionService _cameraAcquisitionService;
 
         private DelegateCommand _configurationCommand;
-        private CameraRecordingMode _selectedRecordingMode;
+        private DelegateCommand _startAcquisitionCommand;
+        private DelegateCommand _stopAcquisitionCommand;
+        private CameraAppAcquisitionMode _selectedAcquisitionMode;
+        private String _visualState;
+        private CamereAppStatus _appStatus;
 
         public BatteryViewModel BatteryViewModel { get; private set; }
-        public IEnumerable<CameraRecordingMode> AvailableRecodingMode { get; private set; }
+        public IEnumerable<CameraAppAcquisitionMode> AvailableAcquisitionMode { get; private set; }
 
-	    public CameraRecordingMode SelectedRecordingMode
+        public String VisualState
+        {
+            get { return _visualState; }
+            private set
+            {
+                _visualState = value;
+                OnPropertyChanged("VisualState");
+            }
+        }
+
+        public CameraAppAcquisitionMode SelectedAcquisitionMode
 	    {
-		    get { return _selectedRecordingMode;}
+		    get { return _selectedAcquisitionMode;}
 		    set 
             {
-                if (_selectedRecordingMode != value)
+                if (_selectedAcquisitionMode != value)
                 {
-                    _selectedRecordingMode = value;
-                    OnPropertyChanged("SelectedRecordingMode");
+                    _cameraStateRepository.SetAppAcquisitionMode(value).ContinueWith((task) =>
+                        { 
+                            _selectedAcquisitionMode = value;
+                            OnPropertyChanged("SelectedRecordingMode");
+                            UpdateVisualState();
+                        });
                 }
             }
 	    }
@@ -57,22 +76,46 @@ namespace XiaomiYiApp.ViewModels
             }
         }
 
-        public MainViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ICaneraStateRepository cameraStateRepository)
+        public ICommand StartAcquisitionCommand
+        {
+            get
+            {
+                if (_startAcquisitionCommand == null)
+                {
+                    _startAcquisitionCommand = new DelegateCommand(StartAcquisitionCommandExecute, StartAcquisitionCommandCanExecute);
+                }
+                return _startAcquisitionCommand;
+            }
+        }
+
+        public ICommand StopAcquisitionCommand
+        {
+            get
+            {
+                if (_stopAcquisitionCommand == null)
+                {
+                    _stopAcquisitionCommand = new DelegateCommand(StopAcquisitionCommandExecute, StopAcquisitionCommandCanExecute);
+                }
+                return _stopAcquisitionCommand;
+            }
+        }
+
+
+
+        public MainViewModel(INavigationService navigationService, IEventAggregator eventAggregator, 
+            ICaneraStateRepository cameraStateRepository, ICameraAcquisitionService cameraAcquisitionService)
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _cameraStateRepository = cameraStateRepository;
+            _cameraAcquisitionService = cameraAcquisitionService;
             BatteryViewModel = new ViewModels.BatteryViewModel(eventAggregator, cameraStateRepository);
-            
             //_eventAggregator.GetEvent<BatteryStateChangedEvent>().Subscribe(UpdateBattery);
         }
 
 
-        //private void UpdateBattery(BatteryState state)
-        //{
-        //    //TODO
-        //}
 
+        #region Command methods
         private void ConfigurationCommandExecute()
         { 
             //TODO
@@ -85,19 +128,93 @@ namespace XiaomiYiApp.ViewModels
             return true;
         }
 
+        private bool StopAcquisitionCommandCanExecute()
+        {
+            //TODO 
+            return true;
+        }
+
+        private void StopAcquisitionCommandExecute()
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool StartAcquisitionCommandCanExecute()
+        {
+            //TODO
+            return true;
+        }
+
+        private async void StartAcquisitionCommandExecute()
+        {
+            if (_selectedAcquisitionMode.GetSystemMode() == CameraSystemMode.Record)
+            {
+                var res = await _cameraAcquisitionService.StartVideoRecord();
+                _appStatus = CamereAppStatus.Recording;
+                UpdateVisualState();
+            }
+        }
+        #endregion
+
         public void OnNavigatedTo(object navigationParameter, System.Windows.Navigation.NavigationMode navigationMode, Dictionary<string, object> viewModelState)
         {
             // throw new NotImplementedException();
+            CameraState camState = _cameraStateRepository.GetCurrentCameraState();
             if (navigationMode == System.Windows.Navigation.NavigationMode.New)
             {
-                AvailableRecodingMode = Helpers.EnumToList<CameraRecordingMode>();
+                AvailableAcquisitionMode = Helpers.EnumToList<CameraAppAcquisitionMode>();
+                SelectedAcquisitionMode = camState.AppAcquisitionMode;
             }
-            SelectedRecordingMode = _cameraStateRepository.GetCurrentCameraState().RecordingMode;
+            
+            _appStatus = camState.AppStatus;
+            UpdateVisualState();
         }
 
         public void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
         {
             //throw new NotImplementedException();
         }
+
+        private void UpdateVisualState()
+        {
+            VisualStates vState = _selectedAcquisitionMode.GetSystemMode() == CameraSystemMode.Record ?
+                VisualStates.RecordState : VisualStates.CaptureState;
+            switch (_appStatus)
+            {
+                //case CamereAppStatus.Idle:
+                //case CamereAppStatus.Vf:
+                //    break;
+                case CamereAppStatus.Record:
+                    vState = VisualStates.RecordState;
+                    break;
+                case CamereAppStatus.Recording:
+                    vState = VisualStates.RecordingState;
+                    break;
+                case CamereAppStatus.Capture:
+                    vState = VisualStates.CaptureState;
+                    break;
+                case CamereAppStatus.PreciseContCapturing:
+                case CamereAppStatus.BurstCapturing:
+                case CamereAppStatus.PreciseCapturing:
+                    vState = VisualStates.CapturingState;
+                    break;
+                //case CamereAppStatus.OperationDone:
+                //    break;
+                default:
+                    break;
+            }
+
+            VisualState = vState.ToString();
+        }
+
+        #region Helper
+        private enum VisualStates
+        {
+            RecordState,
+            CaptureState,
+            RecordingState,
+            CapturingState,
+        }
+        #endregion
     }
 }

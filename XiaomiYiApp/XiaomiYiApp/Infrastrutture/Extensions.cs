@@ -46,20 +46,20 @@ namespace XiaomiYiApp.Infrastrutture
         }
 
 
-        public static CameraSystemMode GetSystemMode(this CameraRecordingMode recordingMode)
+        public static CameraSystemMode GetSystemMode(this CameraAppAcquisitionMode recordingMode)
         {
             CameraSystemMode mode;
             switch (recordingMode)
             {
-                case CameraRecordingMode.PreciseQuality:
-                case CameraRecordingMode.PreciseQualityCont:
-                case CameraRecordingMode.BurstQuality:
-                case CameraRecordingMode.PreciseSelfQuality:
+                case CameraAppAcquisitionMode.PreciseQuality:
+                case CameraAppAcquisitionMode.PreciseQualityCont:
+                case CameraAppAcquisitionMode.BurstQuality:
+                case CameraAppAcquisitionMode.PreciseSelfQuality:
                     mode = CameraSystemMode.Capture;
                     break;
-                case CameraRecordingMode.Record:
-                case CameraRecordingMode.RecordTimelapse:
-                    mode = CameraSystemMode.Video;
+                case CameraAppAcquisitionMode.Record:
+                case CameraAppAcquisitionMode.RecordTimelapse:
+                    mode = CameraSystemMode.Record;
                     break;
                 default:
                     throw new Exception("Unhandled CameraRecordingMode");
@@ -70,25 +70,25 @@ namespace XiaomiYiApp.Infrastrutture
         }
 
 
-        public static CameraCaptureMode GetCaptureMode(this CameraRecordingMode recordingMode)
+        public static CameraCaptureMode GetCaptureMode(this CameraAppAcquisitionMode recordingMode)
         {
-            return ((CameraCaptureMode)(int)recordingMode);
+            return   ((CameraCaptureMode)(int)recordingMode);
         }
 
-        public static CameraVideoMode GetVideoMode(this CameraRecordingMode recordingMode)
+        public static CameraRecordMode GetRecordMode(this CameraAppAcquisitionMode recordingMode)
         {
-            return ((CameraVideoMode)(int)recordingMode);
+            return ((CameraRecordMode)(int)recordingMode);
         }
 
 
-        public static CameraRecordingMode GetRecordingMode(this CameraVideoMode videoMode)
+        public static CameraAppAcquisitionMode GetAppAcquisitionMode(this CameraRecordMode videoMode)
         {
-            return ((CameraRecordingMode)(int)videoMode);
+            return ((CameraAppAcquisitionMode)(int)videoMode);
         }
 
-        public static CameraRecordingMode GetRecordingMode(this CameraCaptureMode captureMode)
+        public static CameraAppAcquisitionMode GetAppAcquisitionMode(this CameraCaptureMode captureMode)
         {
-            return ((CameraRecordingMode)(int)captureMode);
+            return ((CameraAppAcquisitionMode)(int)captureMode);
         }
     }
 }

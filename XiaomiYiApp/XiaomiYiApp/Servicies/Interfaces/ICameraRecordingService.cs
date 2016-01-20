@@ -8,7 +8,7 @@ using XiaomiYiApp.Model.Enums;
 
 namespace XiaomiYiApp.Servicies.Interfaces
 {
-    public interface ICameraRecordingService
+    public interface ICameraAcquisitionService
     {
         Task<OperationResult> StartVideoRecord();
 

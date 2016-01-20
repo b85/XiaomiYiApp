@@ -12,6 +12,7 @@
     xmlns:controls="clr-namespace:XiaomiYiApp.Views.UserControls"
     xmlns:ieCore="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
        xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:customControls="clr-namespace:XiaomiYiApp.CustomControls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -45,43 +46,40 @@
             </Grid.RowDefinitions>
             
             <StackPanel Orientation="Vertical">
-                <toolkit:ListPicker Header="Mode" SelectionMode="Single" ItemsSource="{Binding AvailableRecodingMode}" 
-                                    SelectedItem="{Binding SelectedRecordingMode}" >
+                <toolkit:ListPicker Header="Mode" SelectionMode="Single"  
+                                    ItemsSource="{Binding AvailableAcquisitionMode}" 
+                                    SelectedItem="{Binding SelectedAcquisitionMode, Mode=TwoWay}"  >
                    
                 </toolkit:ListPicker>
             </StackPanel>
 
-            <!--<Grid Grid.Row="1" >
-                <Button 
-            </Grid>-->
 
-                <!--<Grid Grid.Row="1" x:Name="VideoModeView">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock  Text="{Binding StatusMessage}" Margin="10,20" TextAlignment="Center"
-                                Foreground="Red" Style="{StaticResource PhoneTextNormalStyle}"/>
-                    <Button Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding ConnectCommand}">
-                        <TextBlock Text="Connect" Style="{StaticResource PhoneTextNormalStyle}"/>
-                    </Button>
-                </StackPanel>
-
-            </Grid>
-            <Grid Grid.Row="1" x:Name="CaptureModeView" Visibility="Collapsed">
-                <Button Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <TextBlock Text="Disconnect" Style="{StaticResource PhoneTextNormalStyle}"/>
-                </Button>
-            </Grid>
-            <Grid Grid.Row="1" x:Name="VideoRecordingView" Visibility="Collapsed">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" >
-                    <ProgressBar IsIndeterminate="True"   Height="15" HorizontalAlignment="Stretch" Margin="20,0"/>
-                    <TextBlock Text="Connecting..." HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Grid>
+            <Grid Grid.Row="1" Margin="0,0,0,10">
+                <Grid  x:Name="RecordView">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
+                        <customControls:RecordButton Height="80" Width="80" Command="{Binding StartAcquisitionCommand}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid  x:Name="CaptureView" Visibility="Collapsed">
+                    <TextBox Text="TODO"/>
+                </Grid>
+                <Grid  x:Name="RecordingView" Visibility="Collapsed">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" >
+                        <TextBlock  Text="todo timer" Margin="10,20" TextAlignment="Center"
+                                    Style="{StaticResource PhoneTextNormalStyle}"/>
+                        <customControls:RecordButton Height="80" Width="80" IsBlinking="True" Command="{Binding StopAcquisitionCommand}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid  x:Name="CapturingView" Visibility="Collapsed">
+                    <TextBox Text="TODO"/>
+                </Grid>
+           
 
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="VisualizationStates" >
-                    <VisualState x:Name="VideoMode">
+                    <VisualState x:Name="RecordState">
                         <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VideoModeView"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RecordView"
                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                 <DiscreteObjectKeyFrame KeyTime="0" >
                                     <DiscreteObjectKeyFrame.Value>
@@ -89,7 +87,7 @@
                                     </DiscreteObjectKeyFrame.Value>
                                 </DiscreteObjectKeyFrame>
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CaptureModeView"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CaptureView"
                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                 <DiscreteObjectKeyFrame KeyTime="0" >
                                     <DiscreteObjectKeyFrame.Value>
@@ -97,7 +95,7 @@
                                     </DiscreteObjectKeyFrame.Value>
                                 </DiscreteObjectKeyFrame>
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VideoRecordingView"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RecordingView"
                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                 <DiscreteObjectKeyFrame KeyTime="0" >
                                     <DiscreteObjectKeyFrame.Value>
@@ -107,9 +105,9 @@
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
-                    <VisualState x:Name="CaptureMode">
+                    <VisualState x:Name="CaptureState">
                         <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VideoModeView"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RecordView"
                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                 <DiscreteObjectKeyFrame KeyTime="0" >
                                     <DiscreteObjectKeyFrame.Value>
@@ -117,7 +115,7 @@
                                     </DiscreteObjectKeyFrame.Value>
                                 </DiscreteObjectKeyFrame>
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CaptureModeView"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CaptureView"
                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                 <DiscreteObjectKeyFrame KeyTime="0" >
                                     <DiscreteObjectKeyFrame.Value>
@@ -125,7 +123,7 @@
                                     </DiscreteObjectKeyFrame.Value>
                                 </DiscreteObjectKeyFrame>
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VideoRecordingView"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RecordingView"
                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                 <DiscreteObjectKeyFrame KeyTime="0" >
                                     <DiscreteObjectKeyFrame.Value>
@@ -135,9 +133,9 @@
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
-                    <VisualState x:Name="VideoRecording">
+                    <VisualState x:Name="RecordingState">
                         <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VideoModeView"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RecordView"
                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                 <DiscreteObjectKeyFrame KeyTime="0" >
                                     <DiscreteObjectKeyFrame.Value>
@@ -145,7 +143,7 @@
                                     </DiscreteObjectKeyFrame.Value>
                                 </DiscreteObjectKeyFrame>
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CaptureModeView"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CaptureView"
                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                 <DiscreteObjectKeyFrame KeyTime="0" >
                                     <DiscreteObjectKeyFrame.Value>
@@ -153,7 +151,7 @@
                                     </DiscreteObjectKeyFrame.Value>
                                 </DiscreteObjectKeyFrame>
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="VideoRecordingView"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RecordingView"
                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                 <DiscreteObjectKeyFrame KeyTime="0" >
                                     <DiscreteObjectKeyFrame.Value>
@@ -163,13 +161,17 @@
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
+                    <!--<VisualState x:Name="CapturingState">
+                        
+                    </VisualState>-->
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
             <i:Interaction.Triggers>
                 <ieCore:PropertyChangedTrigger Binding="{Binding VisualState}">
                     <ieCore:GoToStateAction StateName="{Binding VisualState}"/>
                 </ieCore:PropertyChangedTrigger>
-            </i:Interaction.Triggers>-->
+            </i:Interaction.Triggers>
+            </Grid>
         </Grid>
 
        

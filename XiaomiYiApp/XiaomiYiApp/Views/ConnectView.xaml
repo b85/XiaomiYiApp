@@ -10,7 +10,6 @@
     xmlns:ieCore="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:customControl="clr-namespace:XiaomiYiApp.CustomControls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -30,8 +29,6 @@
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}"/>
             <TextBlock Text="Connect" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-
-            <customControl:RecordButton x:Name="buttonRec" Height="100" Width="100" IsEnabled="True"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->

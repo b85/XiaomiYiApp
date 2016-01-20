@@ -27,10 +27,10 @@ namespace XiaomiYiApp.Servicies
             var opResult = _connectionManager.SendMessage<FullConfigResponseMessage>(new RequestMessage { MessageId = (int)MessageTypeId.ConfigurationGet });
             if (opResult.Success)
             {
-                return OperationResult<Configuration>.GetSucces(new Configuration { Parameters = Helpers.GetConfigurationFromMessage(opResult.Result) });
+                return OperationResult.GetSucces(new Configuration { Parameters = Helpers.GetConfigurationFromMessage(opResult.Result) });
             }
 
-            return OperationResult<Configuration>.GetFail(opResult.ResultMessage);
+            return OperationResult.GetFail<Configuration>(opResult.ResultMessage);
         }
 
 
@@ -92,10 +92,10 @@ namespace XiaomiYiApp.Servicies
             var opResult = await _connectionManager.SendMessageAsync<FullConfigResponseMessage>(new RequestMessage { MessageId = (int)MessageTypeId.ConfigurationGet });
             if (opResult.Success)
             {
-                return OperationResult<Configuration>.GetSucces(new Configuration { Parameters = Helpers.GetConfigurationFromMessage(opResult.Result) });
+                return OperationResult.GetSucces(new Configuration { Parameters = Helpers.GetConfigurationFromMessage(opResult.Result) });
             }
 
-            return OperationResult<Configuration>.GetFail(opResult.ResultMessage);
+            return OperationResult.GetFail<Configuration>(opResult.ResultMessage);
         }
 
 
@@ -162,7 +162,7 @@ namespace XiaomiYiApp.Servicies
 
             if (opRes.Success)
             {
-                return OperationResult<float>.GetSucces(float.Parse(opRes.Result.Param));
+                return OperationResult.GetSucces(float.Parse(opRes.Result.Param));
             }
             else
             {
@@ -183,7 +183,7 @@ namespace XiaomiYiApp.Servicies
 
             if (opRes.Success)
             {
-                return OperationResult<float>.GetSucces(float.Parse(opRes.Result.Param));
+                return OperationResult.GetSucces(float.Parse(opRes.Result.Param));
             }
             else
             {
@@ -207,7 +207,7 @@ namespace XiaomiYiApp.Servicies
                 BatteryInfo info = new BatteryInfo();
                 info.BatteryLevel = opRes.Result.BatteryLevel;
                 info.BatteryStatus = opRes.Result.BatteryMode == "adapter" ? BatteryStatus.InCharge : BatteryStatus.InUse;  //TODO use constant
-                return OperationResult<BatteryInfo>.GetSucces(info);
+                return OperationResult.GetSucces(info);
             }
             else
             {
@@ -242,7 +242,7 @@ namespace XiaomiYiApp.Servicies
                 return OperationResult<SdCardInfo>.FromResult(sdFreeSapce);
             }
 
-            return OperationResult<SdCardInfo>.GetSucces(new SdCardInfo { FreeSpace = sdFreeSapce.Result, Size = sdSize.Result });
+            return OperationResult.GetSucces(new SdCardInfo { FreeSpace = sdFreeSapce.Result, Size = sdSize.Result });
         }
         #endregion
     }

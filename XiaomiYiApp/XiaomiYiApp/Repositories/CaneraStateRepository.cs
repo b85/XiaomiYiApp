@@ -74,7 +74,7 @@ namespace XiaomiYiApp.Repositories
             }
 
             _currentState = new CameraState();
-            _currentState.VideoMode = confTask.Result.GetValue(ConfigurationParameterName.REC_MODE).GetEnumFromDescription<CameraVideoMode>();
+            _currentState.RecordMode = confTask.Result.GetValue(ConfigurationParameterName.REC_MODE).GetEnumFromDescription<CameraRecordMode>();
             _currentState.CaptureMode = confTask.Result.GetValue(ConfigurationParameterName.CAPTURE_MODE).GetEnumFromDescription<CameraCaptureMode>();
             _currentState.SystemMode = confTask.Result.GetValue(ConfigurationParameterName.SYSTEM_MODE).GetEnumFromDescription<CameraSystemMode>();
             _currentState.Storage = sdCardTask.Result;
@@ -91,14 +91,14 @@ namespace XiaomiYiApp.Repositories
             return _currentState;
         }
 
-        public Task<OperationResult> SetSystemModeAsync(CameraSystemMode systemMode)
+        public async Task<OperationResult> SetSystemModeAsync(CameraSystemMode systemMode)
         {
-            return _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.SYSTEM_MODE, systemMode.GetDescription());
+            return await _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.SYSTEM_MODE, systemMode.GetDescription());
         }
 
-        public Task<OperationResult> SetVideoModeAsync(CameraVideoMode videoMode)
+        public Task<OperationResult> SetRecordModeAsync(CameraRecordMode recordMode)
         {
-            return _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.REC_MODE, videoMode.GetDescription());
+            return _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.REC_MODE, recordMode.GetDescription());
         }
 
         public Task<OperationResult> SetCaptureModeAsync(CameraCaptureMode captureMode)
@@ -106,10 +106,15 @@ namespace XiaomiYiApp.Repositories
             return _configurationService.SetConfigurationParameterAsync(ConfigurationParameterName.CAPTURE_MODE, captureMode.GetDescription());
         }
 
-        public async Task<OperationResult> SetCameraRecordingMode(CameraRecordingMode recordingMode)
+        public async Task<OperationResult> SetAppAcquisitionMode(CameraAppAcquisitionMode acquisitionMode)
         {
+            if (_currentState.AppAcquisitionMode == acquisitionMode)
+            {
+                return new OperationResult(true);
+            }
+
             OperationResult opRes;// = new OperationResult { Success = true, };
-            var newSystemMode = recordingMode.GetSystemMode();
+            var newSystemMode = acquisitionMode.GetSystemMode();
             if (_currentState.SystemMode != newSystemMode)
             {
                 opRes =  await SetSystemModeAsync(newSystemMode);
@@ -122,10 +127,10 @@ namespace XiaomiYiApp.Repositories
             switch (newSystemMode)
             {
                 case CameraSystemMode.Capture:
-                    opRes = await SetCaptureModeAsync(recordingMode.GetCaptureMode());
+                    opRes = await SetCaptureModeAsync(acquisitionMode.GetCaptureMode());
                     break;
-                case CameraSystemMode.Video:
-                    opRes = await SetVideoModeAsync(recordingMode.GetVideoMode());
+                case CameraSystemMode.Record:
+                    opRes = await SetRecordModeAsync(acquisitionMode.GetRecordMode());
                     break;
                 default:
                     throw new Exception("Unhandled CameraSystemMode");
