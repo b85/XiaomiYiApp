@@ -12,6 +12,9 @@ namespace XiaomiYiApp.Model.Enums
             public const String BATTERY = "battery";
             public const String VIDEO_RECORD_END = "video_record_complete";
             public const String VIDEO_RECORD_START = "start_video_record";
+            public const String SWITCH_TO_CAPTURE_MODE = "switch_to_cap_mode";
+            public const String SWITCH_TO_RECORD_MODE = "switch_to_rec_mode";
+            public const String VF_STOP = "vf_stop";
         }
 
         static class ConfigurationParameterBooleanValue

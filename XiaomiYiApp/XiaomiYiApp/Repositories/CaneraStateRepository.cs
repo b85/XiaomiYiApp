@@ -33,19 +33,19 @@ namespace XiaomiYiApp.Repositories
             _eventAggregator = eventAggregator;
             _configurationService = configurationService;
             _eventAggregator.GetEvent<CameraSystemModeChangedEvent>().Subscribe((mode) =>
-                                                                                        {
-                                                                                            if (IsLoaded)
-                                                                                            {
-                                                                                                _currentState.SystemMode = mode;
-                                                                                            }
-                                                                                        });
-            _eventAggregator.GetEvent<BatteryInfoChangedEvent>().Subscribe((batteryInfo) =>
-            {
-                if (IsLoaded)
                 {
-                    _currentState.Battery = batteryInfo;
-                }
-            });
+                    if (IsLoaded)
+                    {
+                        _currentState.SystemMode = mode;
+                    }
+                });
+            _eventAggregator.GetEvent<BatteryInfoChangedEvent>().Subscribe((batteryInfo) =>
+                {
+                    if (IsLoaded)
+                    {
+                        _currentState.Battery = batteryInfo;
+                    }
+                });
         }
 
         public async Task<OperationResult> LoadCameraStateAsync()

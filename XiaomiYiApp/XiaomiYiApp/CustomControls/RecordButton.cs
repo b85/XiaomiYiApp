@@ -29,6 +29,13 @@ namespace XiaomiYiApp.CustomControls
         public RecordButton()
         {
             this.IsEnabledChanged += RecordButton_IsEnabledChanged;
+            this.Loaded += RecordButton_Loaded;
+        }
+
+        void RecordButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            IsBlinking = !IsBlinking;
+            IsBlinking = !IsBlinking;
         }
 
         void RecordButton_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -44,8 +51,6 @@ namespace XiaomiYiApp.CustomControls
            // VisualStateManager.GoToState(((RecordButton)d), (Boolean)e.NewValue ? "Blinking" : "Normal",false);
              
         }
-
-        
       
     }
 }

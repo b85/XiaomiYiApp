@@ -11,6 +11,7 @@
     xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Mvvm;assembly=Microsoft.Practices.Prism.Mvvm.Phone"
     xmlns:controls="clr-namespace:XiaomiYiApp.Views.UserControls"
     xmlns:ieCore="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+     xmlns:im="clr-namespace:Microsoft.Expression.Interactivity.Media;assembly=Microsoft.Expression.Interactions"
        xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:customControls="clr-namespace:XiaomiYiApp.CustomControls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -19,8 +20,10 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True" prism:ViewModelLocator.AutoWireViewModel="True">
-
-    <!--LayoutRoot is the root grid where all page content is placed-->
+    <phone:PhoneApplicationPage.Resources>
+       
+    </phone:PhoneApplicationPage.Resources>
+        <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -57,7 +60,7 @@
             <Grid Grid.Row="1" Margin="0,0,0,10">
                 <Grid  x:Name="RecordView">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
-                        <customControls:RecordButton Height="80" Width="80" Command="{Binding StartAcquisitionCommand}"/>
+                        <Button Height="80" Width="80" Command="{Binding StartAcquisitionCommand}" Template="{StaticResource startRecordButtonTemplate}"/>
                         <!--<Button Height="80" Width="80" Command="{Binding StartAcquisitionCommand}"/>-->
                     </StackPanel>
                 </Grid>
@@ -65,10 +68,10 @@
                     <TextBox Text="TODO"/>
                 </Grid>
                 <Grid  x:Name="RecordingView" Visibility="Collapsed">
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" >
-                        <TextBlock  Text="todo timer" Margin="10,20" TextAlignment="Center"
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" >
+                        <TextBlock  Text="todo timer" Margin="10,0,10,10" TextAlignment="Center"
                                     Style="{StaticResource PhoneTextNormalStyle}"/>
-                        <!--<customControls:RecordButton Height="80" Width="80" IsBlinking="True" Command="{Binding StopAcquisitionCommand}"/>-->
+                        <Button Height="80" Width="80" Command="{Binding StopAcquisitionCommand}" Template="{StaticResource stopRecordButtonTemplate}"  />
                     </StackPanel>
                 </Grid>
                 <Grid  x:Name="CapturingView" Visibility="Collapsed">

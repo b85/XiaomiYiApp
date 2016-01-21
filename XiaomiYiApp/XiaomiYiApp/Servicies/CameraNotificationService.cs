@@ -37,6 +37,15 @@ namespace XiaomiYiApp.Servicies
                 case NotificationMessageType.BATTERY:
                     ManageBatteryNotification(notificationMessage);
                     break;
+                case NotificationMessageType.SWITCH_TO_CAPTURE_MODE:
+                    RaiseSystemModeChanged(CameraSystemMode.Capture);
+                    break;
+                case NotificationMessageType.SWITCH_TO_RECORD_MODE:
+                    RaiseSystemModeChanged(CameraSystemMode.Record);
+                    break;
+                case NotificationMessageType.VF_STOP:
+                    RaiseAppStatusChanged(CamereAppStatus.Vf);
+                    break;
                 default:
                     break;
             }
@@ -51,9 +60,24 @@ namespace XiaomiYiApp.Servicies
             
         }
 
-        private void RaiseBatteryStateChanged(BatteryInfo state)
+        //private void ManageSystemModeNotification(NotificationMessage message)
+        //{
+ 
+        //}
+
+        private void RaiseSystemModeChanged(CameraSystemMode mode)
         {
-            _eventAggregator.GetEvent<BatteryInfoChangedEvent>().Publish(state);
+            _eventAggregator.GetEvent<CameraSystemModeChangedEvent>().Publish(mode);
+        }
+
+        private void RaiseBatteryStateChanged(BatteryInfo info)
+        {
+            _eventAggregator.GetEvent<BatteryInfoChangedEvent>().Publish(info);
+        }
+
+        private void RaiseAppStatusChanged(CamereAppStatus status)
+        {
+            _eventAggregator.GetEvent<CameraAppStatusChangedEvent>().Publish(status);
         }
 
         private void _connectionService_UnhandledMessageReceived(object sender, Model.Events.UnhandledMessageEventArgs e)

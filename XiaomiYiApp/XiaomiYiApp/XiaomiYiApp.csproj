@@ -115,6 +115,7 @@
     <Compile Include="Model\Enums\ConfigurationParameterName.cs" />
     <Compile Include="Model\Enums\Enums.cs" />
     <Compile Include="Model\Enums\StringEnums.cs" />
+    <Compile Include="Model\Events\CameraAppStatusChangedEvent.cs" />
     <Compile Include="Model\Events\BatteryInfoChangedEvent.cs" />
     <Compile Include="Model\Events\CameraSystemModeChangedEvent.cs" />
     <Compile Include="Model\Events\UnhandledMessageEventArgs.cs" />

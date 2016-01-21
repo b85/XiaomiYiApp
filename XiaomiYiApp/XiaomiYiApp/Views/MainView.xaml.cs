@@ -17,5 +17,10 @@ namespace XiaomiYiApp.Views
         {
             InitializeComponent();
         }
+
+        private void RecordButton_Click(object sender, RoutedEventArgs e)
+        {
+            //butStop.IsBlinking = true;
+        }
     }
 }

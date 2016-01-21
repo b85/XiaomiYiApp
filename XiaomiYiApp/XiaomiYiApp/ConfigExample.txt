@@ -372,3 +372,24 @@ Values:
 on
 off
 
+
+
+The thread 0x9b4 has exited with code 259 (0x103).
+Unhandled Message: {"msg_id":7,"type":"start_video_record"}
+Unhandled Message: {"msg_id":7,"type":"vf_stop"}
+Unhandled Message: {"msg_id":7,"type":"video_record_complete","param":"/tmp/fuse_d/DCIM/106MEDIA/YDXJ0070.mp4"}
+Unhandled Message: {"msg_id":7,"type":"switch_to_cap_mode"}
+Unhandled Message: {"msg_id":7,"type":"start_photo_capture","param":"precise quality;off"}
+Unhandled Message: {"msg_id":7,"type":"precise_capture_data_ready"}
+Unhandled Message: {"msg_id":7,"type":"vf_stop"}
+Unhandled Message: {"msg_id":7,"type":"photo_taken","param":"/tmp/fuse_d/DCIM/106MEDIA/YDXJ0071.jpg"}
+
+Unhandled Message: {"msg_id":7,"type":"switch_to_rec_mode"}
+Unhandled Message: {"msg_id":7,"type":"battery","param":"90"}
+
+Unhandled Message: {"msg_id":7,"type":"start_photo_capture","param":"precise quality;off"}
+Unhandled Message: {"msg_id":7,"type":"precise_capture_data_ready"}
+Unhandled Message: {"msg_id":7,"type":"vf_stop"}
+Unhandled Message: {"msg_id":7,"type":"photo_taken","param":"/tmp/fuse_d/DCIM/106MEDIA/YDXJ0072.jpg"}
+
+

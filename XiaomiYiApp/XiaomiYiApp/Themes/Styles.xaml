@@ -5,7 +5,7 @@
                     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                     xmlns:customControl="clr-namespace:XiaomiYiApp.CustomControls">
 
-    <Style TargetType="customControl:RecordButton">
+    <Style TargetType="customControl:RecordButton" x:Key="xxx">
         <Style.Setters>
             <Setter Property="Template">
                 <Setter.Value>
@@ -17,6 +17,16 @@
                                               From="0" To="1" Duration="0:0:1"/>
                                 </Storyboard>
                             </Grid.Resources>
+ 
+                            <Grid x:Name="buttonLayoutRoot"  RenderTransformOrigin="0.5 0.5"  >
+                                <Grid.RenderTransform >
+                                    <ScaleTransform />
+                                </Grid.RenderTransform>
+                                <Ellipse x:Name="blinkEllipse" Margin="1" Fill="DarkRed" Opacity="0"   />
+                                <Ellipse x:Name="borderEllipse" Stroke="White" StrokeThickness="3"/>
+                                <Ellipse x:Name="redcordEllipse" Margin="20" Fill="DarkRed" ></Ellipse>
+                                <Rectangle x:Name="stopRettagle" Margin="25" Fill="White" Visibility="Collapsed"/>
+                            </Grid>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal">
@@ -86,19 +96,127 @@
                                     </ieCore:ChangePropertyAction>
                                 </ieCore:DataTrigger>
                             </i:Interaction.Triggers>
-                            <Grid x:Name="buttonLayoutRoot"  RenderTransformOrigin="0.5 0.5"  >
-                                <Grid.RenderTransform >
-                                    <ScaleTransform />
-                                </Grid.RenderTransform>
-                                <Ellipse x:Name="blinkEllipse" Margin="1" Fill="DarkRed" Opacity="0"   />
-                                <Ellipse x:Name="borderEllipse" Stroke="White" StrokeThickness="3"/>
-                                <Ellipse x:Name="redcordEllipse" Margin="20" Fill="DarkRed" ></Ellipse>
-                                <Rectangle x:Name="stopRettagle" Margin="25" Fill="White" Visibility="Collapsed"/>
-                            </Grid>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style.Setters>
     </Style>
+
+
+    <ControlTemplate TargetType="Button" x:Key="stopRecordButtonTemplate" >
+        <Grid >
+            <Grid.Resources>
+                <Storyboard AutoReverse="True" x:Key="blinkAnimation" RepeatBehavior="Forever" >
+                    <DoubleAnimation  Storyboard.TargetName="blinkEllipse" Storyboard.TargetProperty="Opacity"
+                                              From="0" To="1" Duration="0:0:1"/>
+                </Storyboard>
+            </Grid.Resources>
+
+            <Grid x:Name="buttonLayoutRoot"  RenderTransformOrigin="0.5 0.5"  >
+                <Grid.RenderTransform >
+                    <ScaleTransform />
+                </Grid.RenderTransform>
+                <Ellipse x:Name="blinkEllipse" Margin="1" Fill="DarkRed" Opacity="0"   />
+                <Ellipse x:Name="borderEllipse" Stroke="White" StrokeThickness="3"/>
+                <Ellipse x:Name="redcordEllipse" Margin="20" Fill="DarkRed" Visibility="Collapsed"></Ellipse>
+                <Rectangle x:Name="stopRettagle" Margin="25" Fill="White" Visibility="Visible"/>
+            </Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <Storyboard>
+                            <DoubleAnimation 
+                                            Storyboard.TargetName="buttonLayoutRoot"
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                            To="0.9" Duration="0:0:0"/>
+                            <DoubleAnimation 
+                                            Storyboard.TargetName="buttonLayoutRoot"
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                            To="0.9" Duration="0:0:0"/>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <ColorAnimation To="DarkGray" Duration="0:0:0"
+                                                Storyboard.TargetName="redcordEllipse" 
+                                                Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)">
+                            </ColorAnimation>
+                            <ColorAnimation To="DarkGray" Duration="0:0:0"
+                                                Storyboard.TargetName="borderEllipse" 
+                                                Storyboard.TargetProperty="(Stroke).(SolidColorBrush.Color)">
+                            </ColorAnimation>
+                        </Storyboard>
+                    </VisualState>
+                    <!--<VisualState x:Name="Blinking">
+                            <Storyboard AutoReverse="True" RepeatBehavior="Forever">
+                                <DoubleAnimation  Storyboard.TargetName="blinkEllipse"  Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                  From="0"  To="1" Duration="0:0:1">
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </VisualState>-->
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Loaded">
+                        <im:ControlStoryboardAction Storyboard="{StaticResource blinkAnimation}" ControlStoryboardOption="Play"/>
+                    </i:EventTrigger>
+                
+            </i:Interaction.Triggers>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="Button" x:Key="startRecordButtonTemplate" >
+        <Grid >
+            <Grid.Resources>
+                <Storyboard AutoReverse="True" x:Key="blinkAnimation" RepeatBehavior="Forever" >
+                    <DoubleAnimation  Storyboard.TargetName="blinkEllipse" Storyboard.TargetProperty="Opacity"
+                                              From="0" To="1" Duration="0:0:1"/>
+                </Storyboard>
+            </Grid.Resources>
+
+            <Grid x:Name="buttonLayoutRoot"  RenderTransformOrigin="0.5 0.5"  >
+                <Grid.RenderTransform >
+                    <ScaleTransform />
+                </Grid.RenderTransform>
+                <Ellipse x:Name="borderEllipse" Stroke="White" StrokeThickness="3"/>
+                <Ellipse x:Name="redcordEllipse" Margin="20" Fill="DarkRed" ></Ellipse>
+            </Grid>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <Storyboard>
+                            <DoubleAnimation 
+                                            Storyboard.TargetName="buttonLayoutRoot"
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                            To="0.9" Duration="0:0:0"/>
+                            <DoubleAnimation 
+                                            Storyboard.TargetName="buttonLayoutRoot"
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                            To="0.9" Duration="0:0:0"/>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <ColorAnimation To="DarkGray" Duration="0:0:0"
+                                                Storyboard.TargetName="redcordEllipse" 
+                                                Storyboard.TargetProperty="(Fill).(SolidColorBrush.Color)">
+                            </ColorAnimation>
+                            <ColorAnimation To="DarkGray" Duration="0:0:0"
+                                                Storyboard.TargetName="borderEllipse" 
+                                                Storyboard.TargetProperty="(Stroke).(SolidColorBrush.Color)">
+                            </ColorAnimation>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+        </Grid>
+    </ControlTemplate>
 </ResourceDictionary>

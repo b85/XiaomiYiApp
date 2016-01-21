@@ -55,9 +55,25 @@ namespace XiaomiYiApp.ViewModels
                     _cameraStateRepository.SetAppAcquisitionMode(value).ContinueWith((task) =>
                         { 
                             _selectedAcquisitionMode = value;
-                            OnPropertyChanged("SelectedRecordingMode");
+                            OnPropertyChanged("SelectedAcquisitionMode");
+                           
+                            //switch (_selectedAcquisitionMode)
+                            //{
+                            //    case CameraAppAcquisitionMode.PreciseQuality:
+                            //    case CameraAppAcquisitionMode.PreciseQualityCont:
+                            //    case CameraAppAcquisitionMode.BurstQuality:
+                            //    case CameraAppAcquisitionMode.PreciseSelfQuality:
+                            //        _appStatus = CamereAppStatus.Capture;
+                            //        break;
+                            //    case CameraAppAcquisitionMode.Record:
+                            //    case CameraAppAcquisitionMode.RecordTimelapse:
+                            //        _appStatus = CamereAppStatus.Record;
+                            //        break;
+                            //    default:
+                            //        break;
+                            //}
                             UpdateVisualState();
-                        });
+                        }, TaskContinuationOptions.ExecuteSynchronously);
                 }
             }
 	    }
@@ -134,9 +150,14 @@ namespace XiaomiYiApp.ViewModels
             return true;
         }
 
-        private void StopAcquisitionCommandExecute()
+        private async void StopAcquisitionCommandExecute()
         {
-            throw new NotImplementedException();
+            if (_selectedAcquisitionMode.GetSystemMode() == CameraSystemMode.Record)
+            {
+                var res = await _cameraAcquisitionService.StopVideoRecord();
+                _appStatus = CamereAppStatus.Vf;
+                UpdateVisualState();
+            }
         }
 
         private bool StartAcquisitionCommandCanExecute()
@@ -149,9 +170,22 @@ namespace XiaomiYiApp.ViewModels
         {
             if (_selectedAcquisitionMode.GetSystemMode() == CameraSystemMode.Record)
             {
+                 //await _cameraAcquisitionService.StartVideoRecord().ContinueWith((task) =>
+                 //   {
+                 //       _appStatus = CamereAppStatus.Recording;
+                 //       UpdateVisualState();
+                 //   }, TaskContinuationOptions.ExecuteSynchronously);
+
                 var res = await _cameraAcquisitionService.StartVideoRecord();
-                _appStatus = CamereAppStatus.Recording;
-                UpdateVisualState();
+                if (res.Success)
+                {
+                    _appStatus = CamereAppStatus.Recording;
+                    UpdateVisualState();
+                }
+                else
+                {
+                    //TODO show error
+                }
             }
         }
         #endregion
@@ -164,17 +198,27 @@ namespace XiaomiYiApp.ViewModels
             {
                 CameraState camState = _cameraStateRepository.GetCurrentCameraState();
                 AvailableAcquisitionMode = Helpers.EnumToList<CameraAppAcquisitionMode>();
-                SelectedAcquisitionMode = camState.AppAcquisitionMode;
                 _appStatus = camState.AppStatus;
+                _selectedAcquisitionMode = camState.AppAcquisitionMode;
                 UpdateVisualState();
-            }
-            
-            
+
+                _eventAggregator.GetEvent<CameraSystemModeChangedEvent>().Subscribe((mode) =>
+                {
+                   UpdateSelectedAcquisitionMode( _cameraStateRepository.GetCurrentCameraState().AppAcquisitionMode);
+                   UpdateVisualState();
+                }, ThreadOption.UIThread);
+            }            
         }
 
         public void OnNavigatedFrom(Dictionary<string, object> viewModelState, bool suspending)
         {
             //throw new NotImplementedException();
+        }
+
+        private void UpdateSelectedAcquisitionMode(CameraAppAcquisitionMode mode)
+        {
+            _selectedAcquisitionMode = mode;
+            OnPropertyChanged("SelectedAcquisitionMode");
         }
 
         private void UpdateVisualState()
@@ -186,15 +230,15 @@ namespace XiaomiYiApp.ViewModels
                 //case CamereAppStatus.Idle:
                 //case CamereAppStatus.Vf:
                 //    break;
-                case CamereAppStatus.Record:
-                    vState = VisualStates.RecordState;
-                    break;
+                //case CamereAppStatus.Record:
+                //    vState = VisualStates.RecordState;
+                //    break;
                 case CamereAppStatus.Recording:
                     vState = VisualStates.RecordingState;
                     break;
-                case CamereAppStatus.Capture:
-                    vState = VisualStates.CaptureState;
-                    break;
+                //case CamereAppStatus.Capture:
+                //    vState = VisualStates.CaptureState;
+                //    break;
                 case CamereAppStatus.PreciseContCapturing:
                 case CamereAppStatus.BurstCapturing:
                 case CamereAppStatus.PreciseCapturing:

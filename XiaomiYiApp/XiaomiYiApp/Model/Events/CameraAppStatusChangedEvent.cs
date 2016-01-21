@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using XiaomiYiApp.Model.Entities;
+using System.Threading.Tasks;
+using XiaomiYiApp.Model.Enums;
 
 namespace XiaomiYiApp.Model.Events
 {
-    public class BatteryInfoChangedEvent : PubSubEvent<BatteryInfo>
+    public class CameraAppStatusChangedEvent : PubSubEvent<CamereAppStatus>
     {
     }
 }
