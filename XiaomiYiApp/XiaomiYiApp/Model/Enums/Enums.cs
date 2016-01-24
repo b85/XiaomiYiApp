@@ -96,4 +96,11 @@ namespace XiaomiYiApp.Model.Enums
         [Description("operation_done")]
         OperationDone,
     }
+
+    public enum CameraAppMainStatus
+    {
+        Idle,
+        Acquiring,
+        Saving,
+    }
 }

@@ -65,7 +65,7 @@
                     </StackPanel>
                 </Grid>
                 <Grid  x:Name="CaptureView" Visibility="Collapsed">
-                    <TextBox Text="TODO"/>
+                    <Button  Height="80" Width="80" Command="{Binding StartAcquisitionCommand}" Template="{StaticResource roundButtonTemplate}"/>
                 </Grid>
                 <Grid  x:Name="RecordingView" Visibility="Collapsed">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" >
@@ -75,7 +75,7 @@
                     </StackPanel>
                 </Grid>
                 <Grid  x:Name="CapturingView" Visibility="Collapsed">
-                    <TextBox Text="TODO"/>
+                    <TextBlock Text="TODO"/>
                 </Grid>
            
 

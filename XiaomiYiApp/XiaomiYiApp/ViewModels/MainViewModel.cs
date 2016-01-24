@@ -170,17 +170,31 @@ namespace XiaomiYiApp.ViewModels
         {
             if (_selectedAcquisitionMode.GetSystemMode() == CameraSystemMode.Record)
             {
-                 //await _cameraAcquisitionService.StartVideoRecord().ContinueWith((task) =>
-                 //   {
-                 //       _appStatus = CamereAppStatus.Recording;
-                 //       UpdateVisualState();
-                 //   }, TaskContinuationOptions.ExecuteSynchronously);
+                //await _cameraAcquisitionService.StartVideoRecord().ContinueWith((task) =>
+                //   {
+                //       _appStatus = CamereAppStatus.Recording;
+                //       UpdateVisualState();
+                //   }, TaskContinuationOptions.ExecuteSynchronously);
 
                 var res = await _cameraAcquisitionService.StartVideoRecord();
                 if (res.Success)
                 {
                     _appStatus = CamereAppStatus.Recording;
                     UpdateVisualState();
+                }
+                else
+                {
+                    //TODO show error
+                }
+            }
+            else
+            {
+                var res = await _cameraAcquisitionService.CapturePhoto(_selectedAcquisitionMode.GetCaptureMode());
+                if (res.Success)
+                {
+                    //Todo
+                    //_appStatus = CamereAppStatus.;
+                    //UpdateVisualState();
                 }
                 else
                 {

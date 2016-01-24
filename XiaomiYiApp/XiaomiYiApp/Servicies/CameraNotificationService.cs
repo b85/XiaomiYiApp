@@ -46,9 +46,31 @@ namespace XiaomiYiApp.Servicies
                 case NotificationMessageType.VF_STOP:
                     RaiseAppStatusChanged(CamereAppStatus.Vf);
                     break;
+                case NotificationMessageType.START_PHOTO_CAPTURE:
+                    ManageStartPhotoCaptureNotification(notificationMessage);
+                    break;
+                case NotificationMessageType.START_VIDEO_RECORD:
+                    RaiseAppStatusChanged(CamereAppStatus.Recording);
+                    break;
+                case NotificationMessageType.PHOTO_TAKEN:
+                case NotificationMessageType.BURST_COMPLETE:
+                case NotificationMessageType.PRECISE_CONT_COMPLETE:
+                case NotificationMessageType.VIDEO_RECORD_COMPLETE:
+                    ManageAcquisitionCompletedNotification(notificationMessage);
+                    break;
                 default:
                     break;
             }
+        }
+
+        private void ManageStartPhotoCaptureNotification(NotificationMessage message)
+        { 
+            //TODO
+        }
+
+        private void ManageAcquisitionCompletedNotification(NotificationMessage message)
+        {
+            //TODO
         }
 
         private void ManageBatteryNotification(NotificationMessage message)

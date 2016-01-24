@@ -77,6 +77,7 @@ namespace XiaomiYiApp.Repositories
             _currentState.RecordMode = confTask.Result.GetValue(ConfigurationParameterName.REC_MODE).GetEnumFromDescription<CameraRecordMode>();
             _currentState.CaptureMode = confTask.Result.GetValue(ConfigurationParameterName.CAPTURE_MODE).GetEnumFromDescription<CameraCaptureMode>();
             _currentState.SystemMode = confTask.Result.GetValue(ConfigurationParameterName.SYSTEM_MODE).GetEnumFromDescription<CameraSystemMode>();
+            _currentState.AppStatus = confTask.Result.GetValue(ConfigurationParameterName.APP_STATUS).GetEnumFromDescription<CamereAppStatus>();
             _currentState.Storage = sdCardTask.Result;
             _currentState.Battery = batteryTask.Result;
                 //new BatteryInfo { BatteryLevel = 100, BatteryStatus = BatteryStatus.InUse }; 
